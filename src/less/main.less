@@ -1,0 +1,54 @@
+html,
+body,
+#app {
+    height: 100%; // width: 750px; 
+    .defaultColor {
+        color: #E7CE97;
+    }
+    .defaultBgColor {
+        color: #E7CE97;
+    }
+    button,
+    input {
+        outline: none;
+        border-radius: 5px;
+        border: none;
+    }
+    input {
+        color: @defaultTextColor;
+    }
+    a {
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    input:focus,
+    textarea:focus,
+    select:focus,
+    button:focus,
+    a:focus {
+        outline: none;
+    }
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+html,
+body,
+div,
+img,
+form,
+input,
+#app {
+    margin: 0 auto;
+    padding: 0;
+}
+
+@defaultColor: #E7CE97;
+@defaultBgColor: #E7CE97;
+@defaultTextColor: #7B7B7B;

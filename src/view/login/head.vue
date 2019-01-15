@@ -16,9 +16,9 @@
 <script>
 import appHr from "@c/app-hr";
 export default {
-    components:{
-        appHr,
-    }
+  components: {
+    appHr
+  }
 };
 </script>
 
@@ -31,6 +31,7 @@ export default {
       width: 100%;
     }
     &-text {
+      margin: 0 auto;
       width: 310px;
       display: flex;
       justify-content: space-between;

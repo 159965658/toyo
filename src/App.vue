@@ -5,8 +5,8 @@
 </template>
 
 <style lang='less'>
-// @import url("./less/main.less");
- 
+@import url("./less/icon.css");
+
 body {
   font-size: 16px;
   background-color: #f8f8f8;

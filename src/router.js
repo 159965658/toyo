@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 Vue.use(Router);
-
+const mainIndex = () => import('./view/vehicle/index')
 const routes = [
   {
     path: '*',
@@ -21,6 +21,18 @@ const routes = [
     meta: {
       title: "注册"
     }
+  }, {
+    path: "/main",
+    component: mainIndex,
+    redirect: "/main/vehicle",
+    children: [
+      {
+        path: 'vehicle', name: 'vehicle', component: () => import('./view/vehicle/my-vehicle'), meta: {
+          title: "我的车辆"
+        }
+      }, // 我的车辆
+      { path: "goodfriend", name: "goodfriend", component: () => import('./view/friend') } //好友
+    ]
   },
   {
     name: 'user',

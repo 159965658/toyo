@@ -1,0 +1,42 @@
+.my-icon {
+    display: inline-block;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+/* 菜单底部图标 */
+
+.icon-footer {
+    width: 39.12px;
+    height: 37.69px;
+}
+
+.icon-vehicle {
+    background-image: url('../../static/icon/bar_icon.png');
+}
+
+.active>.icon-vehicle {
+    background-image: url('../../static/icon/bar_icon_active.png');
+}
+
+.icon-goodfriend {
+    background-image: url('../../static/icon/firend.png');
+}
+
+.active>.icon-goodfriend {
+    background-image: url('../../static/icon/firend_active.png');
+}
+
+.icon-my {
+    background-image: url('../../static/icon/my.png');
+}
+
+.active>.icon-my {
+    background-image: url('../../static/icon/my_active.png');
+}
+
+.icon-next {
+    width: 20.09px;
+    height: 35.09px;
+    background-image: url('../assets/icon_next.png')
+}

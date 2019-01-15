@@ -41,6 +41,9 @@ export default {
 
 <style lang="less" scoped>
 .register {
+  .login-header {
+    margin: 0 auto;
+  }
   .verification {
     display: flex;
     justify-content: start;
@@ -58,8 +61,8 @@ export default {
       padding-right: 40px;
     }
   }
-  .login-form-button{
-      margin-top: 55px;
+  .login-form-button {
+    margin-top: 55px;
   }
   .reg-bottom {
     color: @defaultColor;

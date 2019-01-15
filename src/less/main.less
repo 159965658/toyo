@@ -1,3 +1,8 @@
+@defaultAllBgColor: #2a2838;
+@defaultColor: #E7CE97;
+@defaultBgColor: #E7CE97;
+@defaultTextColor: #7B7B7B;
+@deaultInputBgColor: rgba(248, 248, 248, 10%);
 html,
 body,
 #app {
@@ -29,6 +34,55 @@ body,
     button:focus,
     a:focus {
         outline: none;
+    } //body 公共
+    .y-body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        height: 100%;
+        background-color: @defaultAllBgColor;
+    }
+    .login-form {
+        // height: 440px;
+        margin-bottom: 84px;
+        color: @defaultTextColor;
+        font-size: 28px;
+        &-input {
+            margin-bottom: 30px;
+            >input {
+                width: 630px;
+                height: 88px;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                padding-left: 30px;
+                color: @defaultTextColor;
+                background-color: @deaultInputBgColor;
+            }
+        }
+        >.password {
+            // margin-top: 30px;
+        }
+        &-button {
+            height: 88px;
+            margin-top: 30px;
+            >button {
+                outline: none;
+                background: linear-gradient(#f5e9c8, #e7ce97);
+                color: #52320d;
+                width: 100%;
+                text-indent: 10px;
+                letter-spacing: 10px;
+                height: 100%;
+            }
+        }
+        &-register {
+            margin-top: 46px;
+            text-align: center;
+            a {
+                color: @defaultColor;
+            }
+        }
     }
 }
 
@@ -48,7 +102,3 @@ input,
     margin: 0 auto;
     padding: 0;
 }
-
-@defaultColor: #E7CE97;
-@defaultBgColor: #E7CE97;
-@defaultTextColor: #7B7B7B;

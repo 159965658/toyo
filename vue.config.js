@@ -29,6 +29,7 @@ module.exports = {
       .set('@', resolve('src'))
       .set('@a', resolve('src/assets'))
       .set('@c', resolve('src/components'))
+      .set('@dist', resolve('static/dist'))
   },
 
   pluginOptions: {

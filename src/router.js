@@ -16,6 +16,13 @@ const routes = [
     }
   },
   {
+    name: 'register',
+    component: () => import('./view/login/register'),
+    meta: {
+      title: "注册"
+    }
+  },
+  {
     name: 'user',
     component: () => import('./view/user'),
     meta: {

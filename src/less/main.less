@@ -3,10 +3,16 @@
 @defaultBgColor: #E7CE97;
 @defaultTextColor: #7B7B7B;
 @deaultInputBgColor: rgba(248, 248, 248, 10%);
+input::-webkit-input-placeholder {
+    color: #383B41;
+}
+
 html,
 body,
 #app {
+    font-family: PingFangSC-Regular;
     height: 100%; // width: 750px; 
+    background-color: #FAFBFC;
     .defaultColor {
         color: #E7CE97;
     }
@@ -40,24 +46,29 @@ body,
         justify-content: space-between;
         flex-direction: column;
         height: 100%;
-        background: linear-gradient(#2A2838, #292736, #282634, #272532, #262430, #25242E, #222229, #212127, #1F1F23)
+        background-image: linear-gradient(-180deg, #000000 0%, #000000 100%);
     }
     .login-form {
         // height: 440px;
         margin: 0 auto;
-        margin-bottom: 84px;
+        margin-bottom: 70px;
         color: @defaultTextColor;
         font-size: 28px;
         &-input {
             margin-bottom: 30px;
+            background-color: rgba(248, 248, 248, 0.1); // opacity: 0.5;
             >input {
+                &:hover {
+                    border: 1px solid @defaultColor;
+                }
+                font-size: 28px;
+                color: #fff;
                 width: 630px;
                 height: 88px;
                 outline: none;
-                border: none;
+                border: 1px solid transparent;
                 border-radius: 5px;
-                padding-left: 30px;
-                color: @defaultTextColor;
+                padding-left: 60px; // color: @defaultTextColor;
                 background-color: @deaultInputBgColor;
             }
         }
@@ -85,6 +96,13 @@ body,
             }
         }
     }
+    .error {
+        color: #FF677E;
+        font-size: 28px;
+        >span {
+            margin-left: 10px;
+        }
+    }
 }
 
 p,
@@ -109,4 +127,90 @@ li {
     padding: 0;
     margin: 0;
     list-style: none
+}
+
+// vatui 
+.van-pull-refresh__head {
+    //下拉刷新 头部
+    width: 100%;
+    height: 0.66667rem;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    top: -1rem;
+    font-size: 32px;
+    color: #969799;
+    line-height: 0.66667rem;
+}
+
+.van-pull-refresh__loading .van-loading {
+    //下拉刷新加载框
+    width: .51333rem;
+    height: .51333rem;
+    margin-right: 0.06667rem;
+}
+
+// 上拉加载更多
+.van-list__finished-text,
+.van-list__loading-text {
+    color: #969799;
+    font-size: 32px;
+    line-height: 0.66667rem;
+    text-align: center;
+}
+
+.van-loading {
+    width: 0.8rem;
+    height: 0.8rem;
+    z-index: 0;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+    vertical-align: middle;
+}
+
+.footer-height .van-pull-refresh {
+    margin-bottom: 1.38667rem;
+}
+
+.my-vehicle .van-pull-refresh, .friend .van-pull-refresh{
+    margin-top: 1.18rem
+}
+
+.v-use .van-pull-refresh {
+    margin-top: ceil(88px+88px)
+}
+
+.van-nav-bar--fixed {
+    position: fixed !important;
+}
+
+.reserve {
+    background-color: #fff4e6;
+    color: #fdc27a;
+}
+
+.free {
+    background-color: #def7f7;
+    color: #40d1d2;
+}
+
+.busy {
+    background-color: #ffe2e7;
+    color: #ff5f77;
+}
+
+.vehicle-list-body-status {
+    width: 120px;
+    >span {
+        display: block;
+        width: 100%;
+        height: 44px;
+        font-size: 26px;
+        border-radius: 22px;
+        line-height: 40px;
+        text-align: center; // background-color: #fff4e6;
+        // color: #fdc27a;
+    }
 }

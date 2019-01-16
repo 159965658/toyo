@@ -1,11 +1,10 @@
 <template>
-  <div class="friend">
-    <app-header :title="title">
-    
-    </app-header>
+  <div class="v-use">
+    <app-header :title="title" :rightText="rightText"></app-header>
+    <filter-vue></filter-vue>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <friend-item v-for="item in friendArr" :key="item.id" :item="item"></friend-item>
+        <use-list v-for="item in useArr" :key="item.id" :item="item"></use-list>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -13,16 +12,19 @@
 
 <script>
 import appHeader from "@c/vehicle-header";
-import friendItem from "./friend-item";
+import useList from "./use/use-list";
+import filterVue from "./filter-vue";
 export default {
   components: {
     appHeader,
-    friendItem
+    useList,
+    filterVue
   },
   data() {
     return {
-      title: "好友",
-      friendArr: [],
+      title: "用车",
+      rightText: "历史用车",
+      useArr: [],
       isLoading: false,
       loading: false,
       finished: false,
@@ -33,31 +35,30 @@ export default {
     };
   },
   methods: {
-    initView() {},
-    setfriArr() {
+    setUseArr() {
       let count = 0,
         par = this.par,
-        i = this.friendArr.length;
+        i = this.useArr.length;
       if (par.pageIndex == 1) {
-        this.friendArr = [];
+        this.useArr = [];
         i = 0;
       }
       count = par.pageIndex * par.pageSize;
       for (; i < count; i++) {
-        this.friendArr.push({ id: i, status: i % 3 });
+        this.useArr.push({ id: i, status: i % 3 });
       }
     },
     onRefresh() {
       setTimeout(() => {
         this.par.pageIndex = 1;
-        this.setfriArr();
+        this.setUseArr();
         this.isLoading = false;
       }, 500);
     },
     onLoad() {
       setTimeout(() => {
         this.par.pageIndex++;
-        this.setfriArr();
+        this.setUseArr();
         // 加载状态结束
         this.loading = false;
         if (this.par.pageIndex > 4) {
@@ -70,3 +71,4 @@ export default {
 </script>
 <style lang="less" scoped>
 </style>
+

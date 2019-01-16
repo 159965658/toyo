@@ -1,14 +1,14 @@
 <template>
   <div class="login-header">
     <div class="logo">
-      <img src="../../assets/img/logo.jpg" alt class="logo-img">
-      <app-hr></app-hr>
-      <p class="logo-text">
+      <img src="../../assets/logo.png" alt class="logo-img">
+      <!-- <app-hr></app-hr> -->
+      <!-- <p class="logo-text">
         <span>智</span>
         <span>能</span>
         <span>钥</span>
         <span>匙</span>
-      </p>
+      </p> -->
     </div>
   </div>
 </template>

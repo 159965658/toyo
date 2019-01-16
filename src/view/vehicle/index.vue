@@ -1,14 +1,16 @@
 <template>
   <div class="main-body">
-    <router-view/>
+    <div class="footer-height">
+      <router-view/>
+    </div>
     <vehicle-footer></vehicle-footer>
   </div>
 </template>
-
+ 
 <script>
 import vehicleFooter from "@c/vehicle-footer";
 export default {
-  components: {
+  components: { 
     vehicleFooter
   }
 };
@@ -16,10 +18,10 @@ export default {
 
 <style lang="less" scoped>
 .main-body {
-  background-color: #f7f7f7;
+  background: #fafbfc; 
   display: flex;
-  flex-direction: column;
-  height: ceil(1344px-89px);
+  height: 100%;
+  flex-direction: column; 
 }
 </style>
 

@@ -28,10 +28,19 @@ const routes = [
     children: [
       {
         path: 'vehicle', name: 'vehicle', component: () => import('./view/vehicle/my-vehicle'), meta: {
-          title: "我的车辆"
+          title: "车辆"
         }
-      }, // 我的车辆
-      { path: "goodfriend", name: "goodfriend", component: () => import('./view/friend') } //好友
+      }, // 车辆
+      {
+        path: "goodfriend", name: "goodfriend", component: () => import('./view/friend'), meta: {
+          title: '好友'
+        }
+      }, //好友
+      {
+        path: "vehicleuse", name: "vehicleuse", component: () => import('./view/vehicle/vehicle-use'), meta: {
+          title: '用车'
+        }
+      } //用车
     ]
   },
   {

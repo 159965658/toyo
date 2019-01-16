@@ -3,6 +3,7 @@
     <app-head></app-head>
     <div class="login-form">
       <div class="login-form-input">
+        <!-- <i class="my-icon login-icon"></i> -->
         <input type="text" name="phone" :placeholder="placeholder.phone">
       </div>
       <div class="login-form-input password">

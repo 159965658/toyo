@@ -11,6 +11,14 @@
     height: 37.69px;
 }
 
+.icon-use {
+    background-image: url('../../static/icon/use.png');
+}
+
+.active>.icon-use {
+    background-image: url('../../static/icon/use_active.png');
+}
+
 .icon-vehicle {
     background-image: url('../../static/icon/bar_icon.png');
 }
@@ -39,4 +47,38 @@
     width: 20.09px;
     height: 35.09px;
     background-image: url('../assets/icon_next.png')
+}
+
+.login-icon {
+    width: 48px;
+    height: 48px;
+}
+
+/* 登录 */
+
+.login-form-input {
+    background-image: url('../assets/icon_zw.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 20px center;
+}
+
+/* 验证码 */
+
+.verification {
+    background-image: url('../assets/icon_zw.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 20px center;
+}
+
+.icon-error {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_error.png")
+}
+
+.van-icon-ellipsis {
+    color: #fff !important;
+    font-size: 48px !important;
 }

@@ -8,6 +8,7 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
       :fixed="fixed"
+      :border="false"
     >
       <van-icon v-if="$route.name=='goodfriend'" name="ellipsis" slot="right"/>
     </van-nav-bar>
@@ -22,18 +23,25 @@ export default {
     leftArrow: { type: Boolean, default: false },
     rightText: {},
     fixed: { type: Boolean, default: true },
-    rigthSolt: {}
+    rigthSolt: {},
+    clickLeft: {},
+    clickRight: {}
   },
   methods: {
     onClickLeft() {
       //   Toast("返回");
       /* eslint-disable */
-      console.log("left");
+      if (this.onClickLeft) {
+        console.log("left");
+      }
     },
     onClickRight() {
       //   Toast("按钮");
       /* eslint-disable */
-      console.log("right");
+      if (this.clickRight) {
+        this.clickRight();
+        console.log("right");
+      }
     }
   }
 };

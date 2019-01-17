@@ -8,7 +8,7 @@
 export default {
   props: {
     status: {
-      type: Number,  
+      type: Number,
       default: 0
     }
   }
@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.vehicle-list-body-status {
+  margin: 0 !important;
+}
 </style>

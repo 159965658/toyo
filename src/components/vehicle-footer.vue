@@ -9,9 +9,9 @@
     <router-link to="/main/goodfriend" tag="li" active-class="active">
       <i class="my-icon icon-footer icon-goodfriend"></i>好友
     </router-link>
-    <li>
+    <router-link to="/main/mine" tag="li" active-class="active">
       <i class="my-icon icon-footer icon-my"></i>我的
-    </li>
+    </router-link>
   </ul>
 </template>
 
@@ -31,7 +31,7 @@ export default {};
   background: #383b41;
   font-size: 18px;
   color: #fff;
-  > .active { 
+  > .active {
     color: @defaultColor;
     // color: #090909;
   }

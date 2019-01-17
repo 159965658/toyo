@@ -51,11 +51,11 @@ export default {
       }
       > .phone {
         font-size: 28px;
-        color: #c3c4c8;
-        line-height: 40px;
+        color: #7f8389;
+        text-align: center;
       }
     }
   }
-}
+} 
 </style>
 

@@ -26,7 +26,7 @@ import statusVue from "@c/status-vue";
 export default {
   props: ["item"],
   components: {
-    statusVue 
+    statusVue
   }
 };
 </script>
@@ -57,6 +57,9 @@ export default {
     .idcode,
     .useperson {
       line-height: 33px;
+      > i {
+        margin-right: 2px;
+      }
     }
   }
   &-car {

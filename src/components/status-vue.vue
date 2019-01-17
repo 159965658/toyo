@@ -1,12 +1,12 @@
 <template>
-  <div class="vehicle-list-body-status" :style="styleArr">
+  <div class="vehicle-list-body-status">
     <span v-if="status == 1" class="free">空闲中</span>
-    <span v-else-if="status == 2" class="busy">使用中</span>
-    <span v-else class="reserve">有预定</span>
+    <span v-else-if="status == 2" class="busy">借出中</span>
+    <span v-else class="reserve">借入中</span>
   </div>
 </template>
 
-<script> 
+<script>
 export default {
   props: {
     status: {
@@ -21,5 +21,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 </style>

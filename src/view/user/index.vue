@@ -1,72 +1,115 @@
 <template>
-  <div>
-    <img class="user-poster" src="https://img.yzcdn.cn/public_files/2017/10/23/8690bb321356070e0b8c4404d087f8fd.png">
-    <van-row class="user-links">
-      <van-col span="6">
-        <van-icon name="pending-payment" />
-        待付款
-      </van-col>
-      <van-col span="6">
-        <van-icon name="pending-orders" />
-        待接单
-      </van-col>
-      <van-col span="6">
-        <van-icon name="pending-deliver" />
-        待发货
-      </van-col>
-      <van-col span="6">
-        <van-icon name="logistics" />
-        待发货
-      </van-col>
-    </van-row>
-
-    <van-cell-group class="user-group">
-      <van-cell icon="records" title="全部订单" is-link />
-    </van-cell-group>
-
-    <van-cell-group>
-      <van-cell icon="exchange" title="我的积分" is-link />
-      <van-cell icon="gold-coin" title="我的优惠券" is-link />
-      <van-cell icon="gift" title="我收到的礼物" is-link />
-    </van-cell-group>
+  <div class="app-my">
+    <app-header :title="title" :fixed="fixed"></app-header>
+    <div class="app-mine"></div>
+    <div class="app-cardcase">
+      <img src="../../assets/icon_pwd.png" alt>
+      <div class="app-cardcase-p">
+        <p class="name">董晨晨</p>
+        <p class="phone">15099703555</p>
+      </div>
+      <!-- <button><i class="my-icon icon-edit"></button> -->
+      <button>修改</button>
+    </div>
+    <div class="mine-list">
+      <div class="mine-list-item">
+        <i class="my-icon icon-mycode"></i> 我的二维码
+      </div>
+      <div class="mine-list-item">
+        <i class="my-icon icon-set"></i> 设置
+      </div>
+      <div class="mine-list-item">
+        <i class="my-icon icon-out"></i> 登出
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup } from 'vant';
-
+import appHeader from "@c/vehicle-header";
 export default {
   components: {
-    [Row.name]: Row,
-    [Col.name]: Col,
-    [Icon.name]: Icon,
-    [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup
+    appHeader
+  },
+  data() {
+    return {
+      title: "我的",
+      fixed: false
+    };
   }
 };
 </script>
 
-<style lang="less">
-.user {
-  &-poster {
-    width: 100%;
-    display: block;
+<style lang="less" scoped>
+.app-my {
+  position: relative;
+}
+.app-mine {
+  height: 128px;
+  background-color: #383b41;
+}
+.app-cardcase {
+  height: 240px;
+  width: 690px;
+  position: absolute;
+  top: 118px;
+  left: 30px;
+  background-color: #ffffff;
+  background: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  > img {
+    border: 1px solid #c1c7d0;
+    border-radius: 5px;
+    margin-left: 30px;
+    width: 120px;
+    height: 120px;
   }
-
-  &-group {
-    margin-bottom: 15px;
+  &-p {
+    margin-left: 20px;
+    > .name {
+      font-size: 32px;
+      color: #000000;
+    }
+    > .phone {
+      margin-top: 12.1px;
+      font-size: 28px;
+      color: #7f8389;
+      text-align: center;
+    }
   }
-
-  &-links {
-    padding: 15px 0;
-    font-size: 12px;
+  > button {
+    margin-left: 204px;
+    width: 138px;
+    height: 66px;
+    border-radius: 48px 0px 0px 48px !important;
+    background-image: linear-gradient(-180deg, #f5e9c8 0%, #e7ce97 100%);
+    font-family: PingFangSC-Regular;
+    font-size: 28px;
+    color: #ca8b00;
     text-align: center;
-    background-color: #fff;
-
-    .van-icon {
-      display: block;
-      font-size: 24px;
+  }
+}
+.mine-list {
+  height: 301px;
+  background-color: #ffffff;
+  margin-top: 171.5px;
+  display: flex;
+  flex-direction: column;
+  &-item {
+    height: 100px;
+    border-bottom: 1px solid #e3e3e3;
+    font-size: 30px;
+    color: #000000;
+    padding-left: 60px;
+    display: flex;
+    align-items: center;
+    > i {
+      margin-right: 21px;
     }
   }
 }
 </style>
+

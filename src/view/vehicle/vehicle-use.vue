@@ -1,6 +1,6 @@
 <template>
   <div class="v-use">
-    <app-header :title="title" :rightText="rightText"></app-header>
+    <app-header :title="title" :rightText="rightText" :clickRight="clickRight"></app-header>
     <filter-vue></filter-vue>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -31,10 +31,15 @@ export default {
       par: {
         pageIndex: 0,
         pageSize: 10
-      }
+      },
+      clickRight: this.clickRightFun
     };
   },
   methods: {
+    clickRightFun() {
+      //历史用车
+      this.$router.push('/hisuser')
+    },
     setUseArr() {
       let count = 0,
         par = this.par,

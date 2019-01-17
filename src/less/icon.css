@@ -2,6 +2,7 @@
     display: inline-block;
     background-size: 100%;
     background-repeat: no-repeat;
+    vertical-align: middle;
 }
 
 /* 菜单底部图标 */
@@ -57,28 +58,97 @@
 /* 登录 */
 
 .login-form-input {
-    background-image: url('../assets/icon_zw.png');
-    background-size: 30px;
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 20px center;
+}
+
+.login-form-input.phone {
+    background-image: url('../assets/icon_phone.png');
+}
+
+.login-form-input.password {
+    background-image: url('../assets/icon_pwd.png');
+}
+
+.login-form-input.subpwd {
+    background-image: url('../assets/icon_subpwd.png');
 }
 
 /* 验证码 */
 
 .verification {
-    background-image: url('../assets/icon_zw.png');
-    background-size: 30px;
+    background-image: url('../assets/icon_verification.png');
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 20px center;
 }
 
 .icon-error {
-    width: 30px;
-    height: 30px;
-    background-image: url("../assets/icon_error.png")
+    width: 35px;
+    height: 35px;
+    background-image: url("../assets/icon_error.png");
+    background-position: 0px 3px;
+    vertical-align: baseline;
 }
 
 .van-icon-ellipsis {
     color: #fff !important;
     font-size: 48px !important;
+}
+
+/* 用车 */
+
+.icon-down {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_down.png");
+    background-repeat: no-repeat;
+}
+
+.icon-endtime {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_time.png");
+    background-repeat: no-repeat;
+}
+
+.icon-idcode {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_car.png");
+    background-repeat: no-repeat;
+}
+
+.icon-useperson {
+    width: 30px;
+    height: 30px;
+    /* background-image: url("../assets/icon_car.png"); */
+    background-repeat: no-repeat;
+}
+
+.icon-mycode {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_code.png");
+    background-repeat: no-repeat;
+}
+
+.icon-set {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_set.png");
+    background-repeat: no-repeat;
+}
+
+.icon-out {
+    width: 30px;
+    height: 30px;
+    background-image: url("../assets/icon_out.png");
+    background-repeat: no-repeat;
+}
+
+.van-icon-arrow-left {
+    font-size: 48px !important;
+    color: #fff !important;
 }

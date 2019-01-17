@@ -2,13 +2,13 @@
   <div class="register y-body">
     <app-head></app-head>
     <div class="login-form">
-      <div class="login-form-input">
+      <div class="login-form-input phone">
         <input type="text" name="phone" :placeholder="placeholder.phone">
       </div>
-      <div class="login-form-input">
+      <div class="login-form-input password">
         <input type="password" name="pwd" :placeholder="placeholder.setPwd">
       </div>
-      <div class="login-form-input">
+      <div class="login-form-input subpwd">
         <input type="password" name="pwd" :placeholder="placeholder.subPwd">
       </div>
       <div class="verification" :class="{active:yanClick}">
@@ -22,7 +22,7 @@
       </div>
       <p class="error" v-show="error">
         <i class="my-icon icon-error"></i>
-        <span>报错提示</span> 
+        <span>报错提示</span>
       </p>
       <div class="login-form-button">
         <button>注册</button>
@@ -63,13 +63,15 @@ export default {
     display: flex;
     justify-content: start;
     align-items: center;
-    background-color: @deaultInputBgColor;
-    padding-left: 60px;
+    // background-color: @deaultInputBgColor;
+    padding-left: 80px;
+    background-color:#2f2f2f;
     > input {
       width: 420px;
       height: 88px;
       background-color: transparent;
       margin-left: 0px;
+      color: #fff !important;
       // text-align: left;
     }
     > span {

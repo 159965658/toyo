@@ -40,8 +40,20 @@ const routes = [
         path: "vehicleuse", name: "vehicleuse", component: () => import('./view/vehicle/vehicle-use'), meta: {
           title: '用车'
         }
-      } //用车
+      }, //用车
+      {
+        path: "mine", name: "mine", component: () => import('./view/user'), meta: {
+          title: '我的'
+        }
+      }
     ]
+  },
+  {
+    name: 'hisuser',
+    component: () => import('./view/vehicle/his-use'),
+    meta: {
+      title: '历史用车'
+    }
   },
   {
     name: 'user',

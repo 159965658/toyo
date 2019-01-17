@@ -2,7 +2,7 @@
   <div class="login y-body">
     <app-head></app-head>
     <div class="login-form">
-      <div class="login-form-input">
+      <div class="login-form-input phone">
         <!-- <i class="my-icon login-icon"></i> -->
         <input type="text" name="phone" :placeholder="placeholder.phone">
       </div>

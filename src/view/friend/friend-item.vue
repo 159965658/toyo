@@ -1,7 +1,7 @@
 <template>
   <div class="friend-item">
     <div class="friend-item-info">
-      <img src="../../assets/img/ES.png" alt srcset>
+      <img src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg" alt srcset>
       <div class="friend-item-info-p">
         <p class="name">许威</p>
         <p class="phone">15000910314</p>

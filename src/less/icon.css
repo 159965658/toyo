@@ -152,3 +152,58 @@
     font-size: 48px !important;
     color: #fff !important;
 }
+
+.icon-prev {
+    width: 0.5rem;
+    height: 2.19rem;
+    background-image: url("../assets/icon_prev.png");
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+.icon-next1 {
+    width: 0.5rem;
+    height: 2.19rem;
+    background-image: url("../assets/icon_next1.png");
+    background-repeat: no-repeat;
+    background-position: center
+}
+
+.icon-jieche {
+    width: 32px;
+    height: 32px;
+    background-image: url("../assets/icon_jieche.png");
+    background-repeat: no-repeat;
+}
+
+.icon-search {
+    width: 48px;
+    height: 48px;
+    background-image: url("../assets/icon_search.png");
+}
+
+.icon-qrcode {
+    width: 48px;
+    height: 48px;
+    background-image: url("../assets/icon_qrcode.png");
+}
+
+.van-picker__toolbar {
+    height: 0.88667rem;
+    line-height: 0.88667rem;
+}
+
+.van-picker__title,
+.van-picker__cancel,
+.van-picker__confirm {
+    font-size: 28px;
+}
+.van-picker__columns{
+    flex-direction: column;
+}
+.van-picker-column {
+    flex: 1 auto;
+    overflow: hidden;
+    font-size: 0.41333rem;
+    text-align: center;
+}

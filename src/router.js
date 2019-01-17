@@ -33,12 +33,14 @@ const routes = [
       }, // 车辆
       {
         path: "goodfriend", name: "goodfriend", component: () => import('./view/friend'), meta: {
-          title: '好友'
+          title: '好友',
+          overlay: "isfunVue"
         }
       }, //好友
       {
         path: "vehicleuse", name: "vehicleuse", component: () => import('./view/vehicle/vehicle-use'), meta: {
-          title: '用车'
+          title: '用车',
+         
         }
       }, //用车
       {

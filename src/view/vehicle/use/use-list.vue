@@ -14,7 +14,10 @@
     </div>
     <div class="use-item-car">
       <div class="img">
-        <img src="../../../assets/img/ES.png" alt>
+        <img
+          src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1552723279,181900407&fm=26&gp=0.jpg"
+          alt
+        >
       </div>
       <status-vue :status="item.status" :styleArr="{width:'2.4rem'}"></status-vue>
     </div>
@@ -64,8 +67,9 @@ export default {
   }
   &-car {
     > .img {
-      width: 180px;
-      height: 114px;
+      width: 160px;
+      height: 94px;
+      padding: 10px;
       margin-bottom: 4px;
       img {
         width: 100%;

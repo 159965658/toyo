@@ -31,9 +31,10 @@ export default {
     onClickLeft() {
       //   Toast("返回");
       /* eslint-disable */
-      if (this.onClickLeft) {
-        console.log("left");
-      }
+      // if (this.onClickLeft) {
+      //   console.log("left");
+      // }
+      this.$router.go(-1);
     },
     onClickRight() {
       //   Toast("按钮");

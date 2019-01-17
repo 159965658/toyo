@@ -1,15 +1,15 @@
 <template>
   <div class="filter">
     <ul>
-      <li>
+      <li @click="downClick(0)">
         借出车辆
         <i class="my-icon icon-down"></i>
       </li>
-      <li>
+      <li @click="downClick(1)">
         用车中
         <i class="my-icon icon-down"></i>
       </li>
-      <li>
+      <li @click="downClick(2)">
         雷克萨斯轿车
         <i class="my-icon icon-down"></i>
       </li>
@@ -18,7 +18,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    downClick(type) {
+      this.$emit("click", type);
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .filter {

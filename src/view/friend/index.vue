@@ -1,23 +1,24 @@
 <template>
-  <div class="friend">
-    <app-header :title="title">
-    
-    </app-header>
+  <div class="friend" ref="funVue">
+    <app-header :title="title" :clickRight="clickRight"></app-header>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <friend-item v-for="item in friendArr" :key="item.id" :item="item"></friend-item>
       </van-list>
     </van-pull-refresh>
+    <fun-vue v-show="isfunVue"></fun-vue>
   </div>
 </template>
 
 <script>
 import appHeader from "@c/vehicle-header";
 import friendItem from "./friend-item";
+import funVue from "./function-vue";
 export default {
   components: {
     appHeader,
-    friendItem
+    friendItem,
+    funVue
   },
   data() {
     return {
@@ -26,14 +27,36 @@ export default {
       isLoading: false,
       loading: false,
       finished: false,
+      isfunVue: false,
+      clickRight: this.clickRightFun,
       par: {
         pageIndex: 0,
         pageSize: 10
       }
     };
   },
+  beforeDestroy() {
+    window.$vm.$off(this.$route.meta.overlay, this.closeFull);
+  },
+  mounted() {
+    setTimeout(() => {
+      this.addChecked(); //开启监控事件
+    }, 1);
+  },
   methods: {
-    initView() {},
+    addChecked() {
+      //监控全局事件
+      window.$vm.$on(this.$route.meta.overlay, this.closeFull);
+    },
+    closeFull() {
+      //关闭
+      this.isfunVue = false;
+    },
+    clickRightFun() {
+      //开启 检测
+      this.$toastFull();
+      this.isfunVue = true;
+    },
     setfriArr() {
       let count = 0,
         par = this.par,

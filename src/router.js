@@ -12,14 +12,16 @@ const routes = [
     name: "login",
     component: () => import('./view/login'),
     meta: {
-      title: "登录"
+      title: "登录",
+      isValid: true
     }
   },
   {
     name: 'register',
     component: () => import('./view/login/register'),
     meta: {
-      title: "注册"
+      title: "注册",
+      isValid: true
     }
   }, {
     path: "/main",
@@ -40,7 +42,7 @@ const routes = [
       {
         path: "vehicleuse", name: "vehicleuse", component: () => import('./view/vehicle/vehicle-use'), meta: {
           title: '用车',
-         
+
         }
       }, //用车
       {
@@ -89,6 +91,12 @@ const router = new Router({ routes });
 
 router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;
+  const isLogin = to.meta && to.meta.isValid;
+  if (!isLogin) {
+    const user = sessionStorage.getItem('userSession');
+    if (!user)
+      next('/login');
+  }
   if (title) {
     document.title = title;
   }

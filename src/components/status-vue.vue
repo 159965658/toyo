@@ -1,8 +1,9 @@
 <template>
   <div class="vehicle-list-body-status">
-    <span v-if="status == 1" class="free">空闲中</span>
-    <span v-else-if="status == 2" class="busy">借出中</span>
-    <span v-else class="reserve">借入中</span>
+    <span v-if="status == '01'" class="free">闲置中</span>
+    <span v-if="status == '02'" class="busy">预约外借中</span>
+    <span v-if="status == '03'" class="reserve">外借中</span>
+    <span v-if="status == '04'" class="free">车辆故障</span>
   </div>
 </template>
 
@@ -10,8 +11,7 @@
 export default {
   props: {
     status: {
-      type: Number,
-      default: 0
+      type: String
     },
     styleArr: {
       type: Object

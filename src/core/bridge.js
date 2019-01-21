@@ -14,7 +14,7 @@ function setupWebViewJavascriptBridge(callback) {
         document.documentElement.removeChild(WVJBIframe)
     }, 0)
 }
-export default {
+const apis = {
     callhandler(name, data, callback) {
         setupWebViewJavascriptBridge(function (bridge) {
             bridge.callHandler(name, data, callback)
@@ -99,6 +99,46 @@ export default {
         });
         return p;
     },
+    //获取车辆列表接口
+    getCarListByUserId({ UserId, currPage = 1 }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_carManager_getCarListByUserId",
+                { UserId: UserId, currPage: currPage },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //获取用车列表接口接口
+    getBorrowCarListByUserId({ UserId, currPage = 1 }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_borrowCar_getBorrowCarListByUserId",
+                { UserId: UserId, currPage: currPage },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    resFun(resolve, reject, data) {
+        const response = JSON.parse(data);
+        if (response.SUCCESS) {
+            window.clearLoading();
+            resolve(response);
+        }
+        else {
+            window.clearLoading();
+            apis.error(response.MESSAGE);
+            reject(response.MESSAGE);
+        }
+    },
     error(text) {
         setTimeout(() => {
             window.$vm.$toast(text)
@@ -107,3 +147,5 @@ export default {
     }
 
 }
+
+export default apis

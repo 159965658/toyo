@@ -10,13 +10,13 @@
     <status-vue :status="item.status"></status-vue>
   </div>
 </template>
-
+  
 <script>
 import statusVue from "./status-vue";
 export default {
   props: ["item"],
   components: {
-    statusVue
+    statusVue 
   }
 };
 </script>

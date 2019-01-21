@@ -44,10 +44,17 @@ export default {
         pageIndex: 0,
         pageSize: 10
       },
-      clickRight: this.clickRightFun
+      clickRight: this.clickRightFun,
+      user: {}
     };
   },
+  mounted() {
+    this.initView();
+  },
   methods: {
+    initView() {
+      this.user = this.$cache.getUser();
+    },
     clickOverlay() {
       this.$toastFull.isBack = false;
       this.ispicker = false;
@@ -74,36 +81,37 @@ export default {
       //历史用车
       this.$router.push("/hisuser");
     },
-    setUseArr() {
-      let count = 0,
-        par = this.par,
-        i = this.useArr.length;
-      if (par.pageIndex == 1) {
-        this.useArr = [];
-        i = 0;
+    getBorrowCarListByUserId() {
+      const user = this.user;
+      this.$native
+        .getBorrowCarListByUserId({
+          UserId: user.userid,
+          currPage: this.par.pageIndex
+        })
+        .then(data => {
+          this.setUseArr(data);
+        });
+    },
+    setUseArr(data) {
+      // 加载状态结束
+      this.loading = false;
+      this.isLoading = false;
+      const res = data.JSONResult.BorrowCarRecordList;
+      if (this.par.pageIndex == 1) {
+        this.vehicleArr = res;
+      } else {
+        this.vehicleArr = this.vehicleArr.concat(res);
       }
-      count = par.pageIndex * par.pageSize;
-      for (; i < count; i++) {
-        this.useArr.push({ id: i, status: i % 3 });
-      }
+      //到底了
+      if (this.par.pageSize > res.length) this.finished = true;
     },
     onRefresh() {
-      setTimeout(() => {
-        this.par.pageIndex = 1;
-        this.setUseArr();
-        this.isLoading = false;
-      }, 500);
+      this.par.pageIndex = 1;
+      this.getBorrowCarListByUserId();
     },
     onLoad() {
-      setTimeout(() => {
-        this.par.pageIndex++;
-        this.setUseArr();
-        // 加载状态结束
-        this.loading = false;
-        if (this.par.pageIndex > 4) {
-          this.finished = true;
-        }
-      }, 500);
+      this.par.pageIndex++;
+      this.getBorrowCarListByUserId();
     }
   }
 };

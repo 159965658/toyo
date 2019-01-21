@@ -58,7 +58,7 @@ export default {
       this.$native
         .login({ phoneNumber: phone, password: pwd })
         .then(p => {
-          this.$cache.set("user", p.JSONResult.UsrInfo);
+          this.$cache.setUser(p.JSONResult.UsrInfo);
           this.$router.replace("/main/vehicle");
         })
         .catch(p => {

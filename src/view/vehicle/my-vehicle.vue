@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import vehicleList from "./vehicle-list.vue"; 
+import vehicleList from "./vehicle-list.vue";
 import appHeader from "@c/vehicle-header";
 export default {
   components: {
@@ -27,44 +27,49 @@ export default {
       par: {
         pageIndex: 0,
         pageSize: 10
-      }
+      },
+      user: {}
     };
   },
   mounted() {
-    // this.setVehArr();
+    this.initView();
   },
   methods: {
-    initView() {},
-    setVehArr() {
-      let count = 0,
-        par = this.par,
-        i = this.vehicleArr.length;
-      if (par.pageIndex == 1) {
-        this.vehicleArr = [];
-        i = 0;
+    initView() {
+      this.user = this.$cache.getUser();
+    },
+    getCarListByUserId() {
+      const user = this.user;
+      this.$native
+        .getCarListByUserId({
+          UserId: user.userid,
+          currPage: this.par.pageIndex
+        })
+        .then(data => {
+          this.setVehArr(data);
+        });
+    },
+    setVehArr(data) {
+      // 加载状态结束
+      this.loading = false;
+      this.isLoading = false;
+      this.finished = false;
+      const res = data.JSONResult.CarInfoList;
+      if (this.par.pageIndex == 1) {
+        this.vehicleArr = res;
+      } else {
+        this.vehicleArr = this.vehicleArr.concat(res);
       }
-      count = par.pageIndex * par.pageSize;
-      for (; i < count; i++) {
-        this.vehicleArr.push({ id: i, status: i % 3 });
-      }
+      //到底了
+      if (this.par.pageSize > res.length) this.finished = true;
     },
     onRefresh() {
-      setTimeout(() => {
-        this.par.pageIndex = 1;
-        this.setVehArr();
-        this.isLoading = false;
-      }, 500);
+      this.par.pageIndex = 1;
+      this.getCarListByUserId();
     },
     onLoad() {
-      setTimeout(() => {
-        this.par.pageIndex++;
-        this.setVehArr();
-        // 加载状态结束
-        this.loading = false;
-        if (this.par.pageIndex > 4) {
-          this.finished = true;
-        }
-      }, 500);
+      this.par.pageIndex++;
+      this.getCarListByUserId();
     }
   }
 };
@@ -73,7 +78,6 @@ export default {
 <style lang="less" scoped>
 .my-vehicle {
   width: 100%;
-
 }
 </style>
 

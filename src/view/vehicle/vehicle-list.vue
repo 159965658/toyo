@@ -9,10 +9,10 @@
         >
       </div>
       <div class="vehicle-list-body-con">
-        <p class="name">{{item.id}}</p>
-        <p class="idcode">车牌：京NB1234</p>
+        <p class="name">{{item.carid}}</p>
+        <p class="idcode">车牌：{{item.platenumber}}</p>
       </div>
-      <status-vue :status="item.status"></status-vue>
+      <status-vue :status="item.carstatus"></status-vue>
       <!-- <div class="vehicle-list-body-next">
         <i class="my-icon icon-next"></i>
       </div>-->
@@ -43,10 +43,10 @@ export default {
     // height: 239px;
     width: 690px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     &-img {
-      width: 234px;
+      width: 224px;
       height: 140px;
       display: flex;
       justify-content: center;
@@ -54,7 +54,6 @@ export default {
       padding: 10px;
       > img {
         width: 100%;
-
         height: 100%;
       }
     }
@@ -63,7 +62,7 @@ export default {
       display: flex;
       justify-content: center;
       flex-direction: column;
-      width: 386px;
+      width: 306px;
       > .name {
         font-size: 36px;
         color: #414246;

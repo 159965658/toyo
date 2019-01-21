@@ -52,8 +52,18 @@ export default {
         this.$toast(pl.pwd);
         return;
       }
-
+      this.ajaxLogin(phone, pwd);
       // this.$router.replace("/main/vehicle");
+    },
+    ajaxLogin(phone, pwd) {
+      this.$native
+        .login({ phoneNumber: phone, password: pwd })
+        .then(p => {
+          alert(`请求成功${JSON.stringify(p)}`);
+        })
+        .catch(p => {
+          alert(`请求失败${p}`);
+        });
     }
   }
 };

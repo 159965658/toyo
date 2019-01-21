@@ -1,5 +1,5 @@
 
-import android from './android';
+import android from '../bridge';
 import pc from './pc';
 var native = android
 var ua = navigator.userAgent, pf = navigator.platform;
@@ -43,6 +43,20 @@ if (platform.PC || !platform.android) {
             return true;
         }
     }
+    window.showLoading = function (text) {
+        window.$vm.$toast.loading({
+            mask: true,
+            message: text,
+            duration: 0,
+            loadingType: 'spinner',
+            forbidClick: true, // 禁用背景点击
+        });
+    },
+        window.clearLoading = function () {
+            setTimeout(() => {
+                window.$vm.$toast.clear()
+            })
+        }
     // 时间格式化
     Date.prototype.format = function (format) {
         var o = {

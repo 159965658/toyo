@@ -12,6 +12,8 @@ Vue.use(Toast);
 Vue.use(Picker);
 Vue.use(PullRefresh);
 import { native } from './core/native/app';
+// import Bridge from './core/bridge.js'
+// Vue.prototype.$bridge = Bridge
 Vue.prototype.$native = native;
 import ToastFull from '@/core/toast'
 Vue.use(ToastFull);

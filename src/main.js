@@ -11,10 +11,12 @@ Vue.use(List);
 Vue.use(Toast);
 Vue.use(Picker);
 Vue.use(PullRefresh);
-import { native } from './core/native/app';
-// import Bridge from './core/bridge.js'
-// Vue.prototype.$bridge = Bridge
+import { native } from './core/native/app'
+
+import { cache } from './core/cache'
 Vue.prototype.$native = native;
+
+Vue.prototype.$cache = cache;
 import ToastFull from '@/core/toast'
 Vue.use(ToastFull);
 import 'vant/lib/button/style';

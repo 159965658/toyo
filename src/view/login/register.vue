@@ -53,19 +53,30 @@ export default {
       subPwd: "",
       msg: "",
       codeMsg: "获取验证码",
-      settimeInt: 60
+      settimeInt: 60,
+      resCode: ""
     };
   },
   methods: {
     getCode() {
+      if (!this.phone) {
+        this.msg = this.placeholder.phone;
+        return;
+      }
+      if (!window.isPoneAvailable(this.phone)) {
+        this.msg = this.placeholder.validPhone;
+        return;
+      }
       if (!this.IsCodeMsg) {
         //发送验证码
         this.IsCodeMsg = true;
-        this.codeMsg = `获取验证码(${this.settimeInt})`;
+        this.codeMsg = `发送成功(${this.settimeInt})`;
+        //发送验证码
+        this.getSmsCode();
         this.setTiem = setInterval(() => {
           if (this.settimeInt > 0) {
             this.settimeInt--;
-            this.codeMsg = `获取验证码(${this.settimeInt})`;
+            this.codeMsg = `发送成功(${this.settimeInt})`;
           } else {
             this.IsCodeMsg = false;
             this.codeMsg = "重新获取验证码";
@@ -73,6 +84,11 @@ export default {
           }
         }, 1000);
       }
+    },
+    getSmsCode() {
+      this.$native.getSmsCode({ phoneNumber: this.phone }).then(p => {
+        this.resCode = p.JSONResult.verifyCode;
+      });
     },
     register() {
       const placeholder = this.placeholder,
@@ -92,7 +108,28 @@ export default {
         this.msg = "两次密码输入不一致";
       } else if (!code) {
         this.msg = "请输入验证码";
+      } else if (!this.resCode) {
+        this.msg = "请先发送验证码";
+      } else if (this.resCode != code) {
+        this.msg = "输入验证码不正确";
+      } else {
+        this.msg = "";
+        this.registerFun();
       }
+    },
+    registerFun() {
+      this.$native
+        .register({
+          phoneNumber: this.phone,
+          password: this.setPwd,
+          code: this.verification
+        })
+        .then(() => {
+          this.$toast.success("注册成功");
+          setTimeout(() => {
+            this.$router.replace("/login");
+          }, 1);
+        });
     }
   }
 };

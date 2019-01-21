@@ -1,5 +1,6 @@
 
 import android from '../bridge';
+// eslint-disable-next-line no-unused-vars
 import pc from './pc';
 var native = android
 var ua = navigator.userAgent, pf = navigator.platform;
@@ -11,12 +12,12 @@ platform.iPod = ua.indexOf("iPod") > -1;
 platform.winPhone = ua.indexOf("IE") > -1;
 platform.PC = pf == 'MacIntel' || pf == 'Win32';
 window.console.log(ua, platform);
-window.identity = ''
-if (platform.PC || !platform.android) {
-    native = pc;
-    window.identity = 'pc';
-    // export { native }
-}
+window.identity = '';
+// if (platform.PC || !platform.android) {
+//     native = pc;
+//     window.identity = 'pc';
+//     // export { native }
+// }
 
 
 (function (window) {

@@ -44,13 +44,66 @@ export default {
                     }
                     else {
                         window.clearLoading();
+                        vm.$native.error(response.MESSAGE);
                         reject(response.MESSAGE);
                     }
                 },
-                '登录中'
+                '登录中...'
             );
         });
         return p;
+    },
+    //发送验证码
+    getSmsCode({ phoneNumber }) {
+        const vm = window.$vm;
+        // eslint-disable-next-line no-unused-vars  
+        //唤醒loadding 
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_user_getSmsCode",
+                { phoneNumber: phoneNumber },
+                data => {
+                    const response = JSON.parse(data);
+                    if (response.SUCCESS) {
+                        resolve(response);
+                    }
+                    else {
+                        vm.$native.error(response.MESSAGE);
+                        reject(response.MESSAGE);
+                    }
+                }
+            );
+        });
+        return p;
+    },
+    //用户注册接口
+    register({ phoneNumber, password, code }) {
+        const vm = window.$vm;
+        // eslint-disable-next-line no-unused-vars  
+        //唤醒loadding 
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_user_register",
+                { phoneNumber: phoneNumber, password: password, code: code },
+                data => {
+                    const response = JSON.parse(data);
+                    if (response.SUCCESS) {
+                        resolve(response);
+                    }
+                    else {
+                        vm.$native.error(response.MESSAGE);
+                        reject(response.MESSAGE);
+                    }
+                }
+            );
+        });
+        return p;
+    },
+    error(text) {
+        setTimeout(() => {
+            window.$vm.$toast(text)
+        }, 1);
+
     }
 
 }

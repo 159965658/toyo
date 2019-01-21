@@ -4,10 +4,10 @@
     <div class="login-form">
       <div class="login-form-input phone">
         <!-- <i class="my-icon login-icon"></i> -->
-        <input type="text" name="phone" :placeholder="placeholder.phone">
+        <input type="text" name="phone" v-model="phone" :placeholder="placeholder.phone">
       </div>
       <div class="login-form-input password">
-        <input type="password" name="pwd" :placeholder="placeholder.pwd">
+        <input type="password" name="pwd" v-model="pwd" :placeholder="placeholder.pwd">
       </div>
       <div class="login-form-button">
         <button @click="login">登录</button>
@@ -28,12 +28,32 @@ export default {
   },
   data() {
     return {
-      placeholder: loginholder
+      placeholder: loginholder,
+      phone: "",
+      pwd: ""
     };
   },
   methods: {
     login() {
-      this.$router.replace("/main/vehicle");
+      const phone = this.phone,
+        pwd = this.pwd,
+        pl = this.placeholder;
+      //手机号
+      if (!phone) {
+        this.$toast(pl.phone);
+        return;
+      }
+      if (!window.isPoneAvailable(phone)) {
+        this.$toast(pl.validPhone);
+        return;
+      }
+      //密码
+      if (!pwd) {
+        this.$toast(pl.pwd);
+        return;
+      }
+
+      // this.$router.replace("/main/vehicle");
     }
   }
 };

@@ -198,12 +198,19 @@
 .van-picker__confirm {
     font-size: 28px;
 }
-.van-picker__columns{
+
+.van-picker__columns {
     flex-direction: column;
 }
+
 .van-picker-column {
     flex: 1 auto;
     overflow: hidden;
     font-size: 0.41333rem;
     text-align: center;
+}
+
+.van-toast {
+    font-size: 0.38667rem !important;
+    line-height: 0.66667rem !important;
 }

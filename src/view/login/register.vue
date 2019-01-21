@@ -3,13 +3,13 @@
     <app-head></app-head>
     <div class="login-form">
       <div class="login-form-input phone">
-        <input type="text" name="phone" :placeholder="placeholder.phone">
+        <input type="text" name="phone" v-model="phone" :placeholder="placeholder.phone">
       </div>
       <div class="login-form-input password">
-        <input type="password" name="pwd" :placeholder="placeholder.setPwd">
+        <input type="password" name="pwd" v-model="setPwd" :placeholder="placeholder.setPwd">
       </div>
       <div class="login-form-input subpwd">
-        <input type="password" name="pwd" :placeholder="placeholder.subPwd">
+        <input type="password" name="pwd" v-model="subPwd" :placeholder="placeholder.subPwd">
       </div>
       <div class="verification" :class="{active:yanClick}">
         <input
@@ -17,15 +17,16 @@
           @focus="yanClick = true"
           @blur="yanClick = false"
           :placeholder="placeholder.verification"
+          v-model="verification"
         >
-        <span>获取验证码</span>
+        <span @click="getCode()">{{codeMsg}}</span>
       </div>
-      <p class="error" v-show="error">
+      <p class="error" v-show="msg != ''">
         <i class="my-icon icon-error"></i>
-        <span>报错提示</span>
+        <span>{{msg}}</span>
       </p>
       <div class="login-form-button">
-        <button>注册</button>
+        <button @click="register()">注册</button>
       </div>
 
       <p class="reg-bottom">服务条款</p>
@@ -44,8 +45,55 @@ export default {
     return {
       placeholder: regHolder,
       yanClick: false,
-      error: true
+      IsCodeMsg: false,
+      setTiem: null,
+      verification: "",
+      phone: "",
+      setPwd: "",
+      subPwd: "",
+      msg: "",
+      codeMsg: "获取验证码",
+      settimeInt: 60
     };
+  },
+  methods: {
+    getCode() {
+      if (!this.IsCodeMsg) {
+        //发送验证码
+        this.IsCodeMsg = true;
+        this.codeMsg = `获取验证码(${this.settimeInt})`;
+        this.setTiem = setInterval(() => {
+          if (this.settimeInt > 0) {
+            this.settimeInt--;
+            this.codeMsg = `获取验证码(${this.settimeInt})`;
+          } else {
+            this.IsCodeMsg = false;
+            this.codeMsg = "重新获取验证码";
+            this.settimeInt = 60;
+          }
+        }, 1000);
+      }
+    },
+    register() {
+      const placeholder = this.placeholder,
+        code = this.verification,
+        phone = this.phone,
+        setPwd = this.setPwd,
+        subPwd = this.subPwd;
+      if (!phone) {
+        this.msg = placeholder.phone;
+      } else if (!window.isPoneAvailable(phone)) {
+        this.msg = placeholder.validPhone;
+      } else if (!setPwd) {
+        this.msg = "请输入密码";
+      } else if (!subPwd) {
+        this.msg = "请输入确认密码";
+      } else if (subPwd != setPwd) {
+        this.msg = "两次密码输入不一致";
+      } else if (!code) {
+        this.msg = "请输入验证码";
+      }
+    }
   }
 };
 </script>
@@ -65,7 +113,7 @@ export default {
     align-items: center;
     // background-color: @deaultInputBgColor;
     padding-left: 80px;
-    background-color:#2f2f2f;
+    background-color: #2f2f2f;
     > input {
       width: 420px;
       height: 88px;
@@ -75,7 +123,7 @@ export default {
       // text-align: left;
     }
     > span {
-      padding-right: 40px;
+      // padding-right: 40px;
       color: @defaultColor;
     }
   }

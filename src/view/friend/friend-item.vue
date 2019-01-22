@@ -1,10 +1,11 @@
 <template>
   <div class="friend-item">
     <div class="friend-item-info">
-      <img src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg" alt srcset>
+      <img v-if="item.status == 1" :src="item.u_avatarurl" alt srcset>
+      <img v-else :src="user.avatarurl" alt srcset>
       <div class="friend-item-info-p">
-        <p class="name">许威</p>
-        <p class="phone">15000910314</p>
+        <p class="name">{{item.status == 1 ? item.u_nickname : user.nickname}}</p>
+        <p class="phone">{{item.status == 1 ? user.phonenumber : item.u_phonenumber}}</p>
       </div>
     </div>
     <status-vue :status="item.status"></status-vue>
@@ -14,9 +15,9 @@
 <script>
 import statusVue from "./status-vue";
 export default {
-  props: ["item"],
+  props: ["item", "user"],
   components: {
-    statusVue 
+    statusVue
   }
 };
 </script>
@@ -56,6 +57,6 @@ export default {
       }
     }
   }
-} 
+}
 </style>
 

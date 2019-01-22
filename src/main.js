@@ -20,6 +20,8 @@ Vue.prototype.$cache = cache;
 import ToastFull from '@/core/toast'
 Vue.use(ToastFull);
 import 'vant/lib/button/style';
+// eslint-disable-next-line no-unused-vars
+import * as filters from './filter.js';
 window.$vm = new Vue({
   router,
   el: '#app',

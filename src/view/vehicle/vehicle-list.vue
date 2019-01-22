@@ -1,5 +1,5 @@
 <template>
-  <div class="vehicle-list van-hairline--bottom">
+  <div class="vehicle-list van-hairline--bottom" @click="hrefCar(item)">
     <div class="vehicle-list-body">
       <div class="vehicle-list-body-img">
         <img
@@ -26,6 +26,12 @@ export default {
   props: ["item"],
   components: {
     statusVue
+  },
+  methods: {
+    hrefCar(item) {
+      //跳转车辆详情
+      this.$native.jumpToCarDetail({ carId: item.carid }).then(() => {});
+    }
   }
 };
 </script>
@@ -62,7 +68,7 @@ export default {
       display: flex;
       justify-content: center;
       flex-direction: column;
-      width: 306px;
+      width: 270px;
       > .name {
         font-size: 36px;
         color: #414246;

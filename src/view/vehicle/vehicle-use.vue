@@ -96,11 +96,12 @@ export default {
       // 加载状态结束
       this.loading = false;
       this.isLoading = false;
+      this.finished = false;
       const res = data.JSONResult.BorrowCarRecordList;
       if (this.par.pageIndex == 1) {
-        this.vehicleArr = res;
+        this.useArr = res;
       } else {
-        this.vehicleArr = this.vehicleArr.concat(res);
+        this.useArr = this.vehicleArr.concat(res);
       }
       //到底了
       if (this.par.pageSize > res.length) this.finished = true;

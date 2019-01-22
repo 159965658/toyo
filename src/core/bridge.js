@@ -79,8 +79,8 @@ const apis = {
     //用户注册接口
     register({ phoneNumber, password, code }) {
         const vm = window.$vm;
-        // eslint-disable-next-line no-unused-vars  
-        //唤醒loadding 
+        //唤醒loadding
+        window.showLoading('注册中');
         var p = new Promise(function (resolve, reject) {
             vm.$native.callhandler(
                 "js_user_register",
@@ -88,9 +88,11 @@ const apis = {
                 data => {
                     const response = JSON.parse(data);
                     if (response.SUCCESS) {
+                        window.clearLoading();
                         resolve(response);
                     }
                     else {
+                        window.clearLoading();
                         vm.$native.error(response.MESSAGE);
                         reject(response.MESSAGE);
                     }
@@ -120,6 +122,64 @@ const apis = {
             vm.$native.callhandler(
                 "js_borrowCar_getBorrowCarListByUserId",
                 { UserId: UserId, currPage: currPage },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //存储 数据到 app
+    saveValueToLoacl(params) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_app_saveValueToLoacl",
+                params,
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //从app 获取数据
+    getValueFromLocal(key) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_app_getValueFromLocal",
+                key,
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //获取用车列表接口接口
+    getFriendList({ UserId, currPage = 1 }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_friends_getFriendList",
+                { UserId: UserId, currPage: currPage },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //跳转到车辆详情
+    jumpToCarDetail({ carId }) {
+        const vm = window.$vm;
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_friends_getFriendList",
+                { UserId: carId },
                 data => {
                     apis.resFun(resolve, reject, data)
                 }

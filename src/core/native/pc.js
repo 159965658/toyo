@@ -17,11 +17,11 @@ const apis = {
                     "UsrInfo": {
                         "id": "41b83b4fca5541f18e02632b348257d3",
                         "userid": "12345678",
-                        "nickname": null,
+                        "nickname": 'ceshi',
                         "actualname": null,
                         "gender": null,
                         "phonenumber": "12345678",
-                        "avatarurl": null,
+                        "avatarurl": "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg",
                         "remarks": null,
                         "creattime": 1547196998000,
                         "updatetime": null
@@ -402,7 +402,7 @@ const apis = {
         });
         return p;
     },
-    //获取车辆列表接口
+    //获取用车列表接口
     getBorrowCarListByUserId({ UserId, currPage = 1 }) {
         var p = new Promise(function (resolve, reject) {
             const par = { UserId: UserId, currPage: currPage };
@@ -446,6 +446,119 @@ const apis = {
         });
         return p;
     },
+    //存储 数据到 app
+    saveValueToLoacl(params) {
+        var p = new Promise(function (resolve, reject) {
+            const par = params;
+            //js_user_register
+            window.console.log(par, 'fun:', "js_app_saveValueToLoacl");
+            let response = {
+                "MESSAGE": "保存成功",
+                "SUCCESS": true
+            }
+            window.$cache.setUser(JSON.parse(par.user));
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    //从app 获取数据
+    getValueFromLocal(key) {
+        var p = new Promise(function (resolve, reject) {
+            const par = key;
+            window.console.log(par, 'fun:', "js_app_getValueFromLocal");
+            let response = {
+                "MESSAGE": "读取成功",
+                "SUCCESS": true,
+                "RESULT": "彭辉"
+            }
+            response.RESULT = window.$cache.getUser();
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    //获取好友列表
+    getFriendList({ UserId, currPage }) {
+        var p = new Promise(function (resolve, reject) {
+            const par = { UserId: UserId, currPage: currPage };
+            window.console.log(par, 'fun:', "js_friends_getFriendList");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true,
+                "JSONResult": {
+                    "FriendRelationList": [
+                        {
+                            "id": "9727be85916a4aebb7b08bae0edfda72",
+                            "userid": "13000000004",
+                            "u_nickname": "004",
+                            "u_actualname": "",
+                            "u_gender": "",
+                            "u_phonenumber": "13000000004",
+                            "u_avatarurl": "",
+                            "friendUserid": "13000000001",
+                            "uf_nickname": "001",
+                            "uf_actualname": "",
+                            "uf_gender": "",
+                            "uf_phonenumber": "13000000001",
+                            "uf_avatarurl": "",
+                            "status": "1"
+                        },
+                        {
+                            "id": "ec32616bb8e64feda2fc81e770be8609",
+                            "userid": "13000000001",
+                            "u_nickname": "001",
+                            "u_actualname": "",
+                            "u_gender": "",
+                            "u_phonenumber": "13000000001",
+                            "u_avatarurl": "",
+                            "friendUserid": "13000000003",
+                            "uf_nickname": "003",
+                            "uf_actualname": "",
+                            "uf_gender": "",
+                            "uf_phonenumber": "13000000003",
+                            "uf_avatarurl": "",
+                            "status": "2"
+                        },
+                        {
+                            "id": "0800434e3d654281b3c915d4332ac3dc",
+                            "userid": "13000000001",
+                            "u_nickname": "001",
+                            "u_actualname": "",
+                            "u_gender": "",
+                            "u_phonenumber": "13000000001",
+                            "u_avatarurl": "",
+                            "friendUserid": "13000000002",
+                            "uf_nickname": "002",
+                            "uf_actualname": "",
+                            "uf_gender": "",
+                            "uf_phonenumber": "13000000002",
+                            "uf_avatarurl": "",
+                            "status": "2"
+                        }
+                    ]
+                }
+            }
+            response.RESULT = window.$cache.getUser();
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    //跳转到车辆详情
+    jumpToCarDetail({ carId }) {
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            const par = { carId: carId };
+            window.console.log(par, 'fun:', "js_app_jumpToCarDetail");
+            let response = {
+                "MESSAGE": "调用成功",
+                "SUCCESS": true
+            }
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+
     resFun(resolve, reject, response, time = 3000) {
         setTimeout(() => {
             if (response.SUCCESS) {

@@ -58,8 +58,14 @@ export default {
       this.$native
         .login({ phoneNumber: phone, password: pwd })
         .then(p => {
-          this.$cache.setUser(p.JSONResult.UsrInfo);
-          this.$router.replace("/main/vehicle");
+          this.$native
+            .saveValueToLoacl({
+              user: JSON.stringify(p.JSONResult.UsrInfo)
+            })
+            .then(() => {
+              //数据存储成功
+              this.$router.replace("/main/vehicle");
+            });
         })
         .catch(p => {
           alert(`请求失败${p}`);

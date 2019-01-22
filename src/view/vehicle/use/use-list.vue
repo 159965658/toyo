@@ -1,15 +1,18 @@
 <template>
   <div class="use-item">
     <div class="use-item-con">
-      <p class="name">雷克萨斯 轿车</p>
+      <p class="name">{{item.brandModelNumber}} {{item.vehicleType}}</p>
       <p class="endtime">
-        <i class="my-icon icon-endtime"></i>结束用车：18/12/30 20:00
+        <i class="my-icon icon-endtime"></i>
+        结束用车：{{item.borrowToTime | timeStamp('yyyy/MM/dd hh:mm')}}
       </p>
       <p class="idcode">
-        <i class="my-icon icon-idcode"></i>车牌号：京A·2396V
+        <i class="my-icon icon-idcode"></i>
+        车牌号：{{item.plateNumber}}
       </p>
       <p class="useperson">
-        <i class="my-icon icon-useperson"></i>借车人：龚佳
+        <i class="my-icon icon-useperson"></i>
+        借车人：{{item.toNickName}}
       </p>
     </div>
     <div class="use-item-car">
@@ -19,7 +22,7 @@
           alt
         >
       </div>
-      <status-vue :status="item.status" :styleArr="{width:'2.4rem'}"></status-vue>
+      <status-vue :status="item.carStatus" ></status-vue>
     </div>
   </div>
 </template>

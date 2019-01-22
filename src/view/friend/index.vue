@@ -3,7 +3,7 @@
     <app-header :title="title" :clickRight="clickRight"></app-header>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <friend-item v-for="item in friendArr" :key="item.id" :item="item"></friend-item>
+        <friend-item v-for="item in friendArr" :user="user" :key="item.id" :item="item"></friend-item>
       </van-list>
     </van-pull-refresh>
     <fun-vue v-show="isfunVue"></fun-vue>
@@ -29,6 +29,7 @@ export default {
       finished: false,
       isfunVue: false,
       clickRight: this.clickRightFun,
+      user: {},
       par: {
         pageIndex: 0,
         pageSize: 10
@@ -39,6 +40,7 @@ export default {
     window.$vm.$off(this.$route.meta.overlay, this.closeFull);
   },
   mounted() {
+    this.initView();
     setTimeout(() => {
       this.addChecked(); //开启监控事件
     }, 1);
@@ -57,36 +59,41 @@ export default {
       this.$toastFull();
       this.isfunVue = true;
     },
-    setfriArr() {
-      let count = 0,
-        par = this.par,
-        i = this.friendArr.length;
-      if (par.pageIndex == 1) {
-        this.friendArr = [];
-        i = 0;
+    initView() {
+      this.user = this.$cache.getUser();
+    },
+    getFriendList() {
+      const user = this.user;
+      this.$native
+        .getFriendList({
+          UserId: user.userid,
+          currPage: this.par.pageIndex
+        })
+        .then(data => {
+          this.setVehArr(data);
+        });
+    },
+    setVehArr(data) {
+      // 加载状态结束
+      this.loading = false;
+      this.isLoading = false;
+      this.finished = false;
+      const res = data.JSONResult.FriendRelationList;
+      if (this.par.pageIndex == 1) {
+        this.friendArr = res;
+      } else {
+        this.friendArr = this.friendArr.concat(res);
       }
-      count = par.pageIndex * par.pageSize;
-      for (; i < count; i++) {
-        this.friendArr.push({ id: i, status: i % 3 });
-      }
+      //到底了
+      if (this.par.pageSize > res.length) this.finished = true;
     },
     onRefresh() {
-      setTimeout(() => {
-        this.par.pageIndex = 1;
-        this.setfriArr();
-        this.isLoading = false;
-      }, 500);
+      this.par.pageIndex = 1;
+      this.getFriendList();
     },
     onLoad() {
-      setTimeout(() => {
-        this.par.pageIndex++;
-        this.setfriArr();
-        // 加载状态结束
-        this.loading = false;
-        if (this.par.pageIndex > 4) {
-          this.finished = true;
-        }
-      }, 500);
+      this.par.pageIndex++;
+      this.getFriendList();
     }
   }
 };

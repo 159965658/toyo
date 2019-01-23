@@ -137,6 +137,7 @@ const apis = {
                 "js_app_saveValueToLoacl",
                 params,
                 data => {
+                    window.$cache.setUser(JSON.parse(params.user));
                     apis.resFun(resolve, reject, data)
                 }
             );
@@ -178,8 +179,8 @@ const apis = {
         window.showLoading();
         var p = new Promise(function (resolve, reject) {
             vm.$native.callhandler(
-                "js_friends_getFriendList",
-                { UserId: carId },
+                "js_app_jumpToCarDetail",
+                { carId: carId },
                 data => {
                     apis.resFun(resolve, reject, data)
                 }

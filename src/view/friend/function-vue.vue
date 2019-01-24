@@ -3,7 +3,7 @@
     <div class="po">
       <span class="triangle-up"></span>
       <div class="f-fun-body">
-        <div>
+        <div @click="searchFriend">
           <i class="my-icon icon-search"></i> 搜索好友
         </div>
         <div @click="qrCode">
@@ -18,7 +18,10 @@
 export default {
   methods: {
     qrCode() {
-      this.$native.jumpToQRCode().then(() => {});
+      this.$emit("qrCodeClick");
+    },
+    searchFriend() {
+      this.$emit("search");
     }
   }
 };

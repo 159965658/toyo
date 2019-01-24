@@ -1,7 +1,7 @@
 <template>
   <div class="use-item">
     <div class="use-item-con">
-      <p class="name">{{item.brandModelNumber}} {{item.vehicleType}}</p>
+      <p class="name">{{item.brandModelNumber}}</p>
       <p class="endtime">
         <i class="my-icon icon-endtime"></i>
         结束用车：{{item.borrowToTime | timeStamp('yyyy/MM/dd hh:mm')}}
@@ -17,22 +17,22 @@
     </div>
     <div class="use-item-car">
       <div class="img">
-        <img
-          src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1552723279,181900407&fm=26&gp=0.jpg"
-          alt
-        >
+        <app-img :url="item.brandModelNumber"></app-img>
       </div>
-      <status-vue :status="item.carStatus" ></status-vue>
+      <status-vue :status="item.carStatus"></status-vue>
     </div>
   </div>
 </template>
 
 <script>
 import statusVue from "@c/status-vue";
+
+import appImg from "@c/app-carimg";
 export default {
   props: ["item"],
   components: {
-    statusVue
+    statusVue,
+    appImg
   }
 };
 </script>
@@ -71,7 +71,7 @@ export default {
   &-car {
     > .img {
       width: 160px;
-      height: 94px;
+      // height: 94px;
       padding: 10px;
       margin-bottom: 4px;
       img {

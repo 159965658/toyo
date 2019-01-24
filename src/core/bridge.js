@@ -137,7 +137,11 @@ const apis = {
                 "js_app_saveValueToLoacl",
                 params,
                 data => {
-                    window.$cache.setUser(JSON.parse(params.user));
+                    if (params.user != '') {
+                        window.$cache.setUser(JSON.parse(params.user));
+                    } else {
+                        window.sessionStorage.removeItem('userSession');
+                    }
                     apis.resFun(resolve, reject, data)
                 }
             );
@@ -182,6 +186,50 @@ const apis = {
             vm.$native.callhandler(
                 "js_app_jumpToCarDetail",
                 { carId: carId },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //添加好友
+    addFriend({ userId, friendPhoneNumber, friendActualName }) {
+        const vm = window.$vm;
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_friends_addFriend",
+                { userId: userId, friendPhoneNumber: friendPhoneNumber, friendActualName: friendActualName },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //获取历史用车车辆列表
+    getHistoricalVehicleList({ userId }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_borrowCar_getHistoricalVehicleList",
+                { userId: userId },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    // 获取历史用车车辆订单列表
+    getHistoricalVehicleRecordList({ userId, likeDate, carId, borrowCarState, currPage }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_borrowCar_getHistoricalVehicleRecordList",
+                { userId: userId, likeDate: likeDate, carId: carId, borrowCarState: borrowCarState, currPage },
                 data => {
                     apis.resFun(resolve, reject, data)
                 }

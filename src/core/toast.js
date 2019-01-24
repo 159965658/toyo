@@ -52,7 +52,23 @@ Toast.install = function (Vue) {
     Vue.prototype.$isfull = () => {
         return Toast.isBack;
     }
-
+    Vue.prototype.$dateFormatter = function (type, value) {
+        if (type === 'year') {
+            return `${value}年`;
+        } else if (type === 'month') {
+            return `${value}月`
+        }
+        return value;
+    }
+    Vue.prototype.$minDate = new Date('2010-01-01');//最小时间
+    Vue.prototype.$$checkName = function (str) {
+        var regEn = /[`!@#$%^&*()_+<>?:"{},.\\/;'[\]]/im,
+            regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+        if (regEn.test(str) || regCn.test(str)) {
+            return false;
+        }
+        return true;
+    }
 }
 
 export default Toast

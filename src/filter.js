@@ -14,4 +14,5 @@ import * as filters from './filters';
 Object.keys(filters).forEach(key => {
     window.console.log(key);
     Vue.filter(key, filters[key])
+    Vue.prototype['$$' + key] = filters[key]
 })

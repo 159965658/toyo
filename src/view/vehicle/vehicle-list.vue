@@ -2,14 +2,10 @@
   <div class="vehicle-list van-hairline--bottom" @click="hrefCar(item)">
     <div class="vehicle-list-body">
       <div class="vehicle-list-body-img">
-        <img
-          src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547745317713&di=d0658cdb8ead6d922a0bfc1195f4b183&imgtype=0&src=http%3A%2F%2Fi2.hexunimg.cn%2F2015-11-04%2F180327880.jpg"
-          alt
-          srcset
-        >
+        <app-img :url="item.brandmodelnumber"></app-img>
       </div>
       <div class="vehicle-list-body-con">
-        <p class="name">{{item.carid}}</p>
+        <p class="name">{{item.brandmodelnumber}}</p>
         <p class="idcode">车牌：{{item.platenumber}}</p>
       </div>
       <status-vue :status="item.carstatus"></status-vue>
@@ -22,10 +18,12 @@
 
 <script>
 import statusVue from "@c/status-vue";
+import appImg from "@c/app-carimg";
 export default {
   props: ["item"],
   components: {
-    statusVue
+    statusVue,
+    appImg
   },
   methods: {
     hrefCar(item) {
@@ -52,8 +50,8 @@ export default {
     justify-content: start;
     align-items: center;
     &-img {
-      width: 224px;
-      height: 140px;
+      width: 234px;
+      // height: 120px;
       display: flex;
       justify-content: center;
       align-items: center;

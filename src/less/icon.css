@@ -91,11 +91,11 @@
     background-position: 0px 3px;
     vertical-align: baseline;
 }
-/* 
+
 .van-icon-ellipsis {
     color: #fff !important;
-    font-size: 48px !important;
-} */
+    font-size: 32px !important;
+}
 
 /* 用车 */
 
@@ -148,10 +148,10 @@
     background-repeat: no-repeat;
 }
 
-/* .van-icon-arrow-left {
-    font-size: 48px !important;
+.van-icon-arrow-left {
+    font-size: 20px !important;
     color: #fff !important;
-} */
+}
 
 .icon-prev {
     width: 0.5rem;
@@ -187,30 +187,30 @@
     height: 48px;
     background-image: url("../assets/icon_qrcode.png");
 }
-/* 
-.van-picker__toolbar {
+
+/* .van-picker__toolbar {
     height: 0.88667rem;
     line-height: 0.88667rem;
-}
-
+} */
+/* 
 .van-picker__title,
 .van-picker__cancel,
 .van-picker__confirm {
     font-size: 28px;
+} */
+
+.van-picker__frame {
+ position: absolute !important;
 }
 
-.van-picker__columns {
-    flex-direction: column;
-}
-
-.van-picker-column {
+/* .van-picker-column {
     flex: 1 auto;
     overflow: hidden;
     font-size: 0.41333rem;
     text-align: center;
-}
+} */
+
 
 .van-toast {
-    font-size: 0.38667rem !important;
-    line-height: 0.66667rem !important;
-} */ 
+   z-index: 1000000 !important;
+}

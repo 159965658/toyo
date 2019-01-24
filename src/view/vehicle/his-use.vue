@@ -2,29 +2,23 @@
   <div class="his-use">
     <app-header :title="title" :leftArrow="leftArrow"></app-header>
     <div class="had">
-      <van-swipe :autoplay="0" indicator-color="white" ref="$swipe">
-        <van-swipe-item>
+      <van-swipe :autoplay="0" @change="onChange" indicator-color="white" ref="$swipe">
+        <van-swipe-item v-for="item in arr" :key="item.id">
           <div class="itme-con">
             <div class="item-con-body">
               <div class="img">
-                <img
-                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547738124514&di=4b687965b2093ebf359efd1bf7ee477d&imgtype=0&src=http%3A%2F%2F06imgmini.eastday.com%2Fmobile%2F20180918%2F20180918093135_d41d8cd98f00b204e9800998ecf8427e_5.png"
-                  alt
-                >
+                <app-img :url="item.brandmodelnumber"></app-img>
               </div>
               <div class="item-con-text">
-                <p class="name">雷克萨斯 NX</p>
-                <p class="chepai">车牌：京A·2396V</p>
+                <p class="name">{{item.brandmodelnumber}}</p>
+                <p class="chepai">车牌：{{item.platenumber}}</p>
               </div>
             </div>
             <div class="item-con-car">
-              <p>型号: NX 300H &nbsp;&nbsp;|&nbsp;&nbsp;排量: 2.5L&nbsp;&nbsp;|&nbsp;&nbsp; 颜色: 银灰</p>
+              <p>型号: {{item.brandmodelnumber}} &nbsp;&nbsp;|&nbsp;&nbsp;排量: {{item.displacement}}&nbsp;&nbsp;|&nbsp;&nbsp; 颜色: {{item.color}}</p>
             </div>
           </div>
         </van-swipe-item>
-        <van-swipe-item>2</van-swipe-item>
-        <van-swipe-item>3</van-swipe-item>
-        <van-swipe-item>4</van-swipe-item>
         <div class="custom-indicator" slot="indicator">
           <i class="my-icon icon-prev" @click="switchSwipe(false)"></i>
           <i class="my-icon icon-next1" @click="switchSwipe(true)"></i>
@@ -33,12 +27,12 @@
     </div>
     <div class="filter">
       <ul>
-        <li>
-          借出车辆
+        <li @click="carStatusFun">
+          {{carStatus.text}}
           <i class="my-icon icon-down"></i>
         </li>
-        <li>
-          用车中
+        <li @click="carFilterDateFun">
+          {{currentDate | formatDate('yyyy-MM')}}
           <i class="my-icon icon-down"></i>
         </li>
       </ul>
@@ -46,71 +40,176 @@
     <div class="his-use-list">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <div class="his-use-list-item" v-for="item in arr" :key="item.id">
+          <div class="his-use-list-item" v-for="item in hisArr" :key="item.id">
             <p class="jieche">
               <i class="my-icon icon-jieche"></i>
-              <span>借车人：张三</span>
+              <span>借车人：{{item.actualName}}</span>
             </p>
             <p class="endtiem">
               <i class="my-icon icon-endtime"></i>
-              <span>结束用车：18/12/30 20:00</span>
+              <span>结束用车：{{ item.borrowToTime | timeStamp('yy/MM/dd hh:mm') }}</span>
             </p>
           </div>
         </van-list>
       </van-pull-refresh>
-      <!-- <van-popup v-model="ispicker" position="bottom" :overlay="true" @click-overlay="clickOverlay">
+      <van-popup v-model="ispicker" position="bottom" :overlay="true" @click-overlay="clickOverlay">
         <van-picker
           show-toolbar
           title
           :columns="columns"
-          @change="onChange"
+          @change="onPopUpChange"
           @confirm="onPickerConfirm"
           @cancel="onPickerCancel"
+          @click-overlay="clickOverlay"
         />
-      </van-popup>-->
+      </van-popup>
+      <van-popup
+        v-model="ispickerDate"
+        position="bottom"
+        :overlay="true"
+        @click-overlay="clickOverlayDate"
+      >
+        <van-datetime-picker
+          @confirm="onPickerConfirmDate"
+          @cancel="onPickerCancelDate"
+          v-model="currentModelDate"
+          type="year-month"
+          :min-date="minDate"
+          :formatter="formatter"
+        />
+      </van-popup>
     </div>
   </div>
 </template>
 
 <script>
 import appHeader from "@c/vehicle-header";
+import { carStatusArr } from "@dist/status";
+import appImg from "@c/app-carimg";
 export default {
   components: {
-    appHeader
+    appHeader,
+    appImg
   },
   data() {
     return {
+      columns: carStatusArr,
+      currentModelDate: new Date(),
+      currentDate: new Date(),
+      // carStatusArr: [{ id: 1, text: "借出" }, { id: 2, text: "借入" }],
       ispicker: false,
+      ispickerDate: false,
+      minDate: this.$minDate,
       title: "历史用车",
       leftArrow: true,
       arr: [],
       isLoading: false,
-      loading: false,
+      loading: true,
       finished: false,
       par: {
         pageIndex: 0,
         pageSize: 20
-      }
+      },
+      user: {},
+      hisArr: [],
+      currentItem: null,
+      formatter: this.$dateFormatter,
+      carStatus: {}
     };
   },
+  mounted() {
+    this.user = this.$cache.getUser();
+    this.carStatus = this.columns[0];
+    this.getHistoricalVehicleList();
+  },
   methods: {
+    carFilterDateFun() {
+      this.ispickerDate = true;
+    },
+    carStatusFun() {
+      // this.columns = carStatusArr;
+      this.ispicker = true;
+    },
+    onPopUpChange() {},
+    onPickerConfirm(value) {
+      this.carStatus = value;
+      this.getHistoricalVehicleRecordList();
+      this.clickOverlay();
+    },
+    onPickerCancel() {
+      this.clickOverlay();
+    },
+    onPickerConfirmDate(value) {
+      this.currentDate = value;
+      this.getHistoricalVehicleRecordList();
+      this.clickOverlayDate();
+    },
+    onPickerCancelDate() {
+      this.clickOverlayDate();
+    },
     clickOverlay() {
       this.$toastFull.isBack = false;
       this.ispicker = false;
-      window.console.log(this.$toastFull.isBack);
     },
-    setArr() {
-      let count = 0,
-        par = this.par,
-        i = this.arr.length;
-      if (par.pageIndex == 1) {
-        this.arr = [];
-        i = 0;
+    clickOverlayDate() {
+      this.$toastFull.isBack = false;
+      this.ispickerDate = false;
+    },
+    onChange(index) {
+      this.currentItem = this.arr[index];
+      this.onRefresh();
+    },
+    getHistoricalVehicleList() {
+      const user = this.user;
+      this.$native
+        .getHistoricalVehicleList({
+          userId: user.userid
+        })
+        .then(data => {
+          this.arr = data.JSONResult.CarInfoList;
+          let swipe = this.$refs.$swipe;
+          swipe.swipeTo(0);
+          this.onChange(0);
+          // this.loading = this.arr.length ? true : false;
+        });
+    },
+    getHistoricalVehicleRecordList() {
+      const user = this.user,
+        param = this.currentItem;
+      this.$native
+        .getHistoricalVehicleRecordList({
+          userId: user.userid,
+          likeDate: this.$$formatDate(this.currentDate, "yyyy-MM"),
+          carId: param.carid,
+          borrowCarState: this.carStatus.id,
+          currPage: this.par.pageIndex
+        })
+        .then(data => {
+          this.setUseArr(data);
+        });
+    },
+    setUseArr(data) {
+      // 加载状态结束
+      this.loading = false;
+      this.isLoading = false;
+      this.finished = false;
+      const res = data.JSONResult.HistoricalVehicleRecordList;
+      // console.log(this.$$timeStamp(res[0].borrowToTime, "yy-MM-dd hh:mm"));
+      if (this.par.pageIndex == 1) {
+        this.hisArr = res;
+      } else {
+        this.hisArr = this.hisArr.concat(res);
       }
-      count = par.pageIndex * par.pageSize;
-      for (; i < count; i++) {
-        this.arr.push({ id: i, status: i % 3 });
-      }
+      //到底了
+      if (this.par.pageSize > res.length) this.finished = true;
+    },
+    onRefresh() {
+      this.par.pageIndex = 1;
+      this.getHistoricalVehicleRecordList();
+    },
+    onLoad() {
+      this.par.pageIndex++;
+      this.getHistoricalVehicleRecordList();
     },
     switchSwipe(flag) {
       /* eslint-disable */
@@ -122,25 +221,8 @@ export default {
       } else {
         index--;
       }
+      this.currentItem = this.arr[index];
       swipe.swipeTo(index);
-    },
-    onRefresh() {
-      setTimeout(() => {
-        this.par.pageIndex = 1;
-        this.setArr();
-        this.isLoading = false;
-      }, 500);
-    },
-    onLoad() {
-      setTimeout(() => {
-        this.par.pageIndex++;
-        this.setArr();
-        // 加载状态结束
-        this.loading = false;
-        if (this.par.pageIndex > 4) {
-          this.finished = true;
-        }
-      }, 500);
     }
   }
 };
@@ -169,37 +251,10 @@ export default {
     }
   }
   .van-swipe {
-    .itme-con {
-      width: ceil(317.5px + 294px) !important;
-      .item-con-body {
-        display: flex;
-        align-items: center;
-        widows: 611px;
-        > .img {
-          width: 277.5px;
-          height: 160px;
-          padding: 40px;
-          background-color: transparent;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-      .item-con-car {
-        width: 100%;
-
-        text-align: center;
-        p {
-          font-size: 24px;
-          color: #a5adbb;
-          line-height: 35px;
-        }
-      }
-    }
   }
   .item-con-text {
-    width: 294px;
+    // width: 294px;
+    // padding: 20px 0px;
     > .name {
       font-size: 36px;
       color: #414246;
@@ -213,7 +268,8 @@ export default {
   }
   .van-swipe-item {
     display: flex;
-    height: 335px !important;
+    // height: 305px !important;
+    padding-bottom: 20px;
     justify-content: center;
     background: white;
   }
@@ -229,7 +285,7 @@ export default {
   .icon-next1 {
     position: absolute;
     z-index: 2;
-    top: 50px;
+    top: 75px;
   }
   .filter {
     height: 88px;
@@ -270,5 +326,39 @@ export default {
     height: 32px;
   }
   //   }
+}
+.had {
+  min-height: 335px;
+}
+.itme-con {
+  width: ceil(317.5px + 294px) !important;
+
+  .item-con-body {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    // width: 611px;
+    height: 241px;
+    > .img {
+      width: 317.5px;
+      // height: 200px;
+      padding: 5px;
+      background-color: transparent;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .item-con-car {
+    width: 100%;
+
+    text-align: center;
+    p {
+      // font-size: 24px;
+      color: #a5adbb;
+      // line-height: 35px;
+    }
+  }
 }
 </style>

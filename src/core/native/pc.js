@@ -18,7 +18,7 @@ const apis = {
                         "id": "41b83b4fca5541f18e02632b348257d3",
                         "userid": "12345678",
                         "nickname": 'ceshi',
-                        "actualname": null,
+                        "actualname": "张三",
                         "gender": null,
                         "phonenumber": "12345678",
                         "avatarurl": "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg",
@@ -106,7 +106,7 @@ const apis = {
                             "id": "41b83b4fca5541f18e02632b34825710",
                             "carid": "CAR_010",
                             "platenumber": "京A00010",
-                            "brandmodelnumber": "ES200x",
+                            "brandmodelnumber": "CT200x",
                             "vehicletype": "小型普通客车",
                             "vin": "LFMAPE2C7A0185410",
                             "enginenumber": "F000010",
@@ -125,7 +125,7 @@ const apis = {
                             "id": "41b83b4fca5541f18e02632b34825710",
                             "carid": "CAR_010",
                             "platenumber": "京A00010",
-                            "brandmodelnumber": "ES200x",
+                            "brandmodelnumber": "GS200x",
                             "vehicletype": "小型普通客车",
                             "vin": "LFMAPE2C7A0185410",
                             "enginenumber": "F000010",
@@ -144,7 +144,7 @@ const apis = {
                             "id": "41b83b4fca5541f18e02632b34825710",
                             "carid": "CAR_010",
                             "platenumber": "京A00010",
-                            "brandmodelnumber": "ES200x",
+                            "brandmodelnumber": "IS200x",
                             "vehicletype": "小型普通客车",
                             "vin": "LFMAPE2C7A0185410",
                             "enginenumber": "F000010",
@@ -456,8 +456,12 @@ const apis = {
                 "MESSAGE": "保存成功",
                 "SUCCESS": true
             }
-            window.$cache.setUser(JSON.parse(par.user));
-            apis.resFun(resolve, reject, response);
+            if (params.user != '') {
+                window.$cache.setUser(JSON.parse(params.user));
+            } else {
+                window.sessionStorage.removeItem('userSession');
+            }
+            apis.resFun(resolve, reject, response, 0);
         });
         return p;
     },
@@ -558,8 +562,132 @@ const apis = {
         });
         return p;
     },
+    //调用二维码
+    jumpToQRCode() {
+        var p = new Promise(function (resolve, reject) {
+            const par = {};
+            window.console.log(par, 'fun:', "js_app_jumpToCarDetail");
+            let json = {
+                userId: '123123',
+                friendPhoneNumber: '22222222',
+                friendActualName: '3333333'
+            };
+            let response = {
+                "MESSAGE": "正常终了",
+                "RESULT": JSON.stringify(json),
+                "SUCCESS": true
+            }
+            apis.resFun(resolve, reject, response, 0);
+        });
+        return p;
+    },
+    addFriend({ userId, friendPhoneNumber, friendActualName }) {
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            const par = { userId: userId, friendPhoneNumber: friendPhoneNumber, friendActualName: friendActualName };
+            window.console.log(par, 'fun:', "js_friends_addFriend");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true
+            }
+            setTimeout(() => {
+                apis.resFun(resolve, reject, response);
+            }, 3000);
 
-    resFun(resolve, reject, response, time = 3000) {
+        });
+        return p;
+    },
+    //获取历史用车车辆列表
+    getHistoricalVehicleList({ userId }) {
+        var p = new Promise(function (resolve, reject) {
+            const par = { userId: userId };
+            window.console.log(par, 'fun:', "js_borrowCar_getHistoricalVehicleList");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true,
+                "JSONResult": {
+                    "CarInfoList": [
+                        {
+                            "id": "41b83b4fca5541f18e02632b34825710",
+                            "carid": "CAR_010",
+                            "platenumber": "京A00010",
+                            "brandmodelnumber": "ES200x",
+                            "vehicletype": "小型普通客车",
+                            "vin": "LFMAPE2C7A0185410",
+                            "enginenumber": "F000010",
+                            "natureofuse": "02",
+                            "registrationdate": "20170101",
+                            "displacement": "2.0L",
+                            "color": "超音速钛银色",
+                            "longitude": "116.30718",
+                            "latitude": "39.98226",
+                            "carstatus": "02",
+                            "creatuser": "13000000001",
+                            "creattime": 1547196960000,
+                            "updateuser": "13000000001",
+                            "updatetime": 1547436120000
+                        }, {
+                            "id": "41b83b4fca5541f18e02632b34825711",
+                            "carid": "CAR_010",
+                            "platenumber": "京A00010",
+                            "brandmodelnumber": "ES200x",
+                            "vehicletype": "小型普通客车",
+                            "vin": "LFMAPE2C7A0185410",
+                            "enginenumber": "F000010",
+                            "natureofuse": "02",
+                            "registrationdate": "20170101",
+                            "displacement": "2.0L",
+                            "color": "超音速钛银色",
+                            "longitude": "116.30718",
+                            "latitude": "39.98226",
+                            "carstatus": "02",
+                            "creatuser": "13000000001",
+                            "creattime": 1547196960000,
+                            "updateuser": "13000000001",
+                            "updatetime": 1547436120000
+                        }
+                    ]
+                }
+            }
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    // 获取历史用车车辆订单列表
+    getHistoricalVehicleRecordList({ userId, likeDate, carId, borrowCarState, currPage }) {
+        var p = new Promise(function (resolve, reject) {
+            const par = { userId: userId, likeDate: likeDate, carId: carId, borrowCarState: borrowCarState, currPage };
+            window.console.log(par, 'fun:', "js_borrowCar_getHistoricalVehicleRecordList");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true,
+                "JSONResult": {
+                    "HistoricalVehicleRecordList": [
+                        {
+                            "carId": "CAR_010",
+                            "fromUserId": "13000000001",
+                            "toUserId": "13000000002",
+                            "borrowFromTime": 1547709032000,
+                            "borrowToTime": 1547724360000,
+                            "borrowStatus": "03",
+                            "electronicToken": "",
+                            "electronicKey": "",
+                            "nickName": "001",
+                            "actualName": "001",
+                            "id": "41b83b4fca5541f18e02632b34825710"
+                        }
+                    ]
+                }
+            }
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    resFun(resolve, reject, response, time = 0) {
         setTimeout(() => {
             if (response.SUCCESS) {
                 window.clearLoading();

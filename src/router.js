@@ -52,6 +52,7 @@ const routes = [
       }
     ]
   },
+  { name: 'qrcode', component: () => import('./view/user/my-qrcode'), meta: { title: '我的二维码' } },
   {
     name: 'hisuser',
     component: () => import('./view/vehicle/his-use'),

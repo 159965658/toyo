@@ -1,26 +1,74 @@
 <template>
   <div class="v-use">
     <app-header :title="title" :rightText="rightText" :clickRight="clickRight"></app-header>
-    <filter-vue v-on:click="onFilter($event)"></filter-vue>
+    <div class="filter">
+      <ul>
+        <li @click="downClick(0)">
+          {{currItem.text}}
+          <i class="my-icon icon-down"></i>
+        </li>
+        <li @click="downClick(1)">
+          {{currUseItem.text}}
+          <i class="my-icon icon-down"></i>
+        </li>
+        <li @click="downClick(2)">
+          雷克萨斯轿车
+          <i class="my-icon icon-down"></i>
+        </li>
+      </ul>
+    </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <use-list v-for="item in useArr" :key="item.id" :item="item"></use-list>
       </van-list>
     </van-pull-refresh>
-    <van-popup v-model="ispicker" position="bottom" :overlay="true" @click-overlay="clickOverlay">
+    <van-popup
+      v-model="ispicker0"
+      position="bottom"
+      :overlay="true"
+      @click-overlay="clickOverlay(0)"
+    >
       <van-picker
         show-toolbar
         title
         :columns="columns"
-        @change="onChange"
         @confirm="onPickerConfirm"
-        @cancel="onPickerCancel"
+        @cancel="clickOverlay(0)"
+      />
+    </van-popup>
+    <van-popup
+      v-model="ispicker1"
+      position="bottom"
+      :overlay="true"
+      @click-overlay="clickOverlay(1)"
+    >
+      <van-picker
+        show-toolbar
+        title
+        :columns="columns1"
+        @confirm="onPickerConfirm1"
+        @cancel="clickOverlay(1)"
+      />
+    </van-popup>
+    <van-popup
+      v-model="ispicker2"
+      position="bottom"
+      :overlay="true"
+      @click-overlay="clickOverlay(2)"
+    >
+      <van-picker
+        show-toolbar
+        title
+        :columns="columns2"
+        @confirm="onPickerConfirm2"
+        @cancel="clickOverlay(2)"
       />
     </van-popup>
   </div>
 </template>
 
 <script>
+import { carStatusArr, carUseArr } from "@dist/status";
 import appHeader from "@c/vehicle-header";
 import useList from "./use/use-list";
 import filterVue from "./filter-vue";
@@ -32,10 +80,14 @@ export default {
   },
   data() {
     return {
-      columns: ["1", "2", "3", "4", "5"],
+      columns: carStatusArr,
+      columns1: carUseArr,
+      columns2: [],
       title: "用车",
       rightText: "历史用车",
-      ispicker: false,
+      ispicker0: false,
+      ispicker1: false,
+      ispicker2: false,
       useArr: [],
       isLoading: false,
       loading: false,
@@ -45,37 +97,39 @@ export default {
         pageSize: 10
       },
       clickRight: this.clickRightFun,
-      user: {}
+      user: {},
+      currItem: {},
+      currUseItem: {}
     };
   },
   mounted() {
+    this.currItem = this.columns[0];
+    this.currUseItem = this.columns1[0];
     this.initView();
   },
   methods: {
     initView() {
       this.user = this.$cache.getUser();
     },
-    clickOverlay() {
+    clickOverlay(type) {
       this.$toastFull.isBack = false;
-      this.ispicker = false;
-      window.console.log(this.$toastFull.isBack);
+      this[`ispicker${type}`] = false;
     },
-    onPickerConfirm(value, index) {
-      window.console.log(`当前值：${value}, 当前索引：${index}`);
-      this.clickOverlay();
+    onPickerConfirm(value) {
+      this.currItem = value;
+      this.clickOverlay(0);
     },
-    onPickerCancel() {
-      window.console.log("取消");
-      this.clickOverlay();
+    onPickerConfirm1(value) {
+      this.currUseItem = value;
+      this.clickOverlay(1);
     },
-    onFilter(type) {
+    onPickerConfirm2(value) {
+      this.currItem = value;
+      this.clickOverlay(2);
+    },
+    downClick(type) {
       this.$toastFull.isBack = true;
-      window.console.log(type, this.$toastFull.isBack);
-
-      this.ispicker = true;
-    },
-    onChange(picker, value, index) {
-      window.console.log(`当前值：${value}, 当前索引：${index}`);
+      this[`ispicker${type}`] = true;
     },
     clickRightFun() {
       //历史用车
@@ -101,7 +155,7 @@ export default {
       if (this.par.pageIndex == 1) {
         this.useArr = res;
       } else {
-        this.useArr = this.vehicleArr.concat(res);
+        this.useArr = this.useArr.concat(res);
       }
       //到底了
       if (this.par.pageSize > res.length) this.finished = true;
@@ -118,5 +172,36 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.filter {
+  height: 88px;
+  position: fixed;
+  top: 1rem;
+  left: 0px;
+  width: 100%;
+  background-color: #fbfbfc;
+  > ul {
+    display: flex;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+    li {
+      font-size: 32px;
+      flex: 1 auto;
+      text-align: center;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > i {
+        margin-left: 20px;
+        margin-top: 2px;
+      }
+      &:nth-of-type(even) {
+        border-left: 1px solid #d9dde4;
+        border-right: 1px solid #d9dde4;
+      }
+    }
+  }
+}
 </style>
 

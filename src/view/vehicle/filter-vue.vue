@@ -33,7 +33,7 @@ export default {
 .filter {
   height: 88px;
   position: fixed;
-  top: 1.17333rem;
+  top: 1rem;
   left: 0px;
   width: 100%;
   background-color: #fbfbfc;

@@ -61,7 +61,7 @@ export default {
         num: 1,
         thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/320454216bbe9e25c7651e1fa51b31fd.jpeg'
       }]
-    };
+    }; 
   },
 
   computed: {

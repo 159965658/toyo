@@ -3,10 +3,10 @@
     <app-header :title="title" :fixed="fixed"></app-header>
     <div class="app-mine"></div>
     <div class="app-cardcase">
-      <img src="../../assets/icon_pwd.png" alt>
+      <img :src="user.avatarurl" alt>
       <div class="app-cardcase-p">
-        <p class="name">董晨晨</p>
-        <p class="phone">15099703555</p>
+        <p class="name">{{user.nickname}}</p>
+        <p class="phone">{{user.phonenumber}}</p>
       </div>
       <!-- <button><i class="my-icon icon-edit"></button> -->
       <button>修改</button>
@@ -18,7 +18,7 @@
       <div class="mine-list-item">
         <i class="my-icon icon-set"></i> 设置
       </div>
-      <div class="mine-list-item">
+      <div class="mine-list-item" @click="outClick">
         <i class="my-icon icon-out"></i> 登出
       </div>
     </div>
@@ -34,8 +34,30 @@ export default {
   data() {
     return {
       title: "我的",
-      fixed: false
+      fixed: false,
+      user: {}
     };
+  },
+  methods: {
+    getUser() {
+      this.$native.getValueFromLocal("user").then(data => {
+        this.user = JSON.parse(data);
+      });
+    },
+    outClick() {
+      this.$dialog
+        .confirm({
+          title: "退出登录",
+          message: "确认要退出登录吗？"
+        })
+        .then(() => {
+          this.$cach.removeAll();
+          this.$native.saveValueToLoacl({ user: "" }).then(() => {});
+        })
+        .catch(() => {
+          // on cancel
+        });
+    }
   }
 };
 </script>

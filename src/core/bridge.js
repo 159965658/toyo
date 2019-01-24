@@ -147,12 +147,13 @@ const apis = {
     //从app 获取数据
     getValueFromLocal(key) {
         const vm = window.$vm;
-        var p = new Promise(function (resolve, reject) {
+        var p = new Promise(function (resolve) {
             vm.$native.callhandler(
                 "js_app_getValueFromLocal",
                 key,
                 data => {
-                    apis.resFun(resolve, reject, data)
+                    resolve(JSON.parse(data));
+                    // apis.resFun(resolve, reject, data)
                 }
             );
         });
@@ -181,6 +182,20 @@ const apis = {
             vm.$native.callhandler(
                 "js_app_jumpToCarDetail",
                 { carId: carId },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    //调用二维码
+    jumpToQRCode() {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_app_jumpToQRCode",
+                {},
                 data => {
                     apis.resFun(resolve, reject, data)
                 }

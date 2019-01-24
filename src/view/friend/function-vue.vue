@@ -6,7 +6,7 @@
         <div>
           <i class="my-icon icon-search"></i> 搜索好友
         </div>
-        <div>
+        <div @click="qrCode">
           <i class="my-icon icon-qrcode"></i>扫描二维码
         </div>
       </div>
@@ -15,7 +15,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    qrCode() {
+      this.$native.jumpToQRCode().then(() => {});
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

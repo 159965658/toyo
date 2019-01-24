@@ -13,11 +13,11 @@ platform.winPhone = ua.indexOf("IE") > -1;
 platform.PC = pf == 'MacIntel' || pf == 'Win32';
 window.console.log(ua, platform);
 window.identity = '';
-// if (platform.PC || !platform.android || !platform.iPhone) {
-//     native = pc;
-//     window.identity = 'pc';
-//     // export { native }
-// }
+if (platform.PC || !platform.android || !platform.iPhone) {
+    native = pc;
+    window.identity = 'pc';
+    // export { native }
+}
 
 
 (function (window) {

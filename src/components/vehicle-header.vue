@@ -51,16 +51,16 @@ export default {
 <style lang="less">
 .v-header {
   .van-nav-bar {
-    height: 88px !important;
-    line-height: 88px !important;
+    // height: 88px !important;
+    // line-height: 88px !important;
     background-color: #383b41 !important;
     .van-nav-bar__title {
-      font-size: 32px !important;
+      // font-size: 32px !important;
       color: #f4f5f7 !important;
       letter-spacing: 0;
     }
     .van-nav-bar__text {
-      font-size: 28px !important;
+      // font-size: 28px !important;
       color: #f4f5f7 !important;
       &:active {
         background-color: transparent !important;

@@ -91,11 +91,11 @@
     background-position: 0px 3px;
     vertical-align: baseline;
 }
-
+/* 
 .van-icon-ellipsis {
     color: #fff !important;
     font-size: 48px !important;
-}
+} */
 
 /* 用车 */
 
@@ -148,10 +148,10 @@
     background-repeat: no-repeat;
 }
 
-.van-icon-arrow-left {
+/* .van-icon-arrow-left {
     font-size: 48px !important;
     color: #fff !important;
-}
+} */
 
 .icon-prev {
     width: 0.5rem;
@@ -187,7 +187,7 @@
     height: 48px;
     background-image: url("../assets/icon_qrcode.png");
 }
-
+/* 
 .van-picker__toolbar {
     height: 0.88667rem;
     line-height: 0.88667rem;
@@ -210,7 +210,7 @@
     text-align: center;
 }
 
-/* .van-toast {
+.van-toast {
     font-size: 0.38667rem !important;
     line-height: 0.66667rem !important;
-} */
+} */ 

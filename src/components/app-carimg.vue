@@ -12,14 +12,13 @@ export default {
   data() {
     return {
       imgUrl: this.url,
-      src: "",
-      urlTemp: `${process.env.BASE_URL}/car/`
+      src: ""
     };
   },
   created() {
     // console.log(this.imgUrl.substring(0, 2));
-    const type = this.imgUrl.substring(0, 2).toLowerCase();
-    this.src = `${this.urlTemp}${type}.png`;
+    const type = this.url.substring(0, 2).toLowerCase();
+    this.src = require(`../assets/car/${type}.png`);
   }
 };
 </script>

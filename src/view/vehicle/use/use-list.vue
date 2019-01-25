@@ -1,5 +1,5 @@
 <template>
-  <div class="use-item">
+  <div class="use-item" @click="hrefCar(item)">
     <div class="use-item-con">
       <p class="name">{{item.brandModelNumber}}</p>
       <p class="endtime">
@@ -33,6 +33,12 @@ export default {
   components: {
     statusVue,
     appImg
+  },
+  methods: {
+    hrefCar(item) {
+      //跳转车辆详情
+      this.$native.jumpToCarDetail({ carId: item.carId }).then(() => {});
+    }
   }
 };
 </script>

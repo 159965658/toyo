@@ -43,7 +43,8 @@
           <div class="his-use-list-item" v-for="item in hisArr" :key="item.id">
             <p class="jieche">
               <i class="my-icon icon-jieche"></i>
-              <span>借车人：{{item.actualName}}</span>
+              <span v-if="carStatus.id == 1 ">借车人：{{item.actualName}}</span>
+              <span v-if="carStatus.id == 2 ">车主：{{item.actualName}}</span>
             </p>
             <p class="endtiem">
               <i class="my-icon icon-endtime"></i>
@@ -76,6 +77,7 @@
           type="year-month"
           :min-date="minDate"
           :formatter="formatter"
+          :max-date="maxDate"
         />
       </van-popup>
     </div>
@@ -95,6 +97,7 @@ export default {
     return {
       columns: carStatusArr,
       currentModelDate: new Date(),
+      maxDate: new Date(),
       currentDate: new Date(),
       // carStatusArr: [{ id: 1, text: "借出" }, { id: 2, text: "借入" }],
       ispicker: false,
@@ -255,6 +258,7 @@ export default {
   .item-con-text {
     // width: 294px;
     // padding: 20px 0px;
+    padding-left: 20px;
     > .name {
       font-size: 36px;
       color: #414246;
@@ -285,7 +289,7 @@ export default {
   .icon-next1 {
     position: absolute;
     z-index: 2;
-    top: 75px;
+    top: 60px;
   }
   .filter {
     height: 88px;
@@ -331,7 +335,7 @@ export default {
   min-height: 335px;
 }
 .itme-con {
-  width: ceil(317.5px + 294px) !important;
+  width: ceil(317.5px + 310px) !important;
 
   .item-con-body {
     justify-content: center;

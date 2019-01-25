@@ -251,6 +251,22 @@ const apis = {
         });
         return p;
     },
+    //确认 好友
+    confirmAddFriend({ userId, friendId, status }) {
+        const vm = window.$vm;
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            vm.$native.callhandler(
+                "js_friends_confirmAddFriend",
+                { userId: userId, friendId: friendId, status: status },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
     resFun(resolve, reject, data) {
         const response = JSON.parse(data);
         if (response.SUCCESS) {

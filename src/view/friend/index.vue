@@ -7,7 +7,7 @@
       </van-list>
     </van-pull-refresh>
     <fun-vue v-show="isfunVue" @qrCodeClick="qrCode" @search="searchFriend"></fun-vue>
-    <add-friend v-show="isAdd" @submit="submitFriend"></add-friend>
+    <add-friend v-if="isAdd" @submit="submitFriend"></add-friend>
   </div>
 </template>
 

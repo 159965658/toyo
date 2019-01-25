@@ -67,9 +67,6 @@ export default {
               this.$router.replace("/main/vehicle");
             });
         })
-        .catch(p => {
-          alert(`请求失败${p}`);
-        });
     }
   }
 };

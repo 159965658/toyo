@@ -12,7 +12,7 @@
       </p>
       <p class="useperson">
         <i class="my-icon icon-useperson"></i>
-        借车人：{{item.toNickName}}
+        借车人：{{item.toActualName}}
       </p>
     </div>
     <div class="use-item-car">

@@ -12,7 +12,7 @@
           <i class="my-icon icon-down"></i>
         </li>
         <li @click="downClick(2)">
-          雷克萨斯轿车
+          {{currUseName.text}}
           <i class="my-icon icon-down"></i>
         </li>
       </ul>
@@ -82,7 +82,7 @@ export default {
     return {
       columns: carStatusArr,
       columns1: carUseArr,
-      columns2: [],
+      columns2: [{ id: "22", text: "名字" }],
       title: "用车",
       rightText: "历史用车",
       ispicker0: false,
@@ -99,12 +99,14 @@ export default {
       clickRight: this.clickRightFun,
       user: {},
       currItem: {},
-      currUseItem: {}
+      currUseItem: {},
+      currUseName: {}
     };
   },
   mounted() {
     this.currItem = this.columns[0];
     this.currUseItem = this.columns1[0];
+    this.currUseName = this.columns2[0];
     this.initView();
   },
   methods: {
@@ -124,7 +126,7 @@ export default {
       this.clickOverlay(1);
     },
     onPickerConfirm2(value) {
-      this.currItem = value;
+      this.currUseName = value;
       this.clickOverlay(2);
     },
     downClick(type) {

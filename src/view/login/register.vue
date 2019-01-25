@@ -28,7 +28,9 @@
       <div class="login-form-button">
         <button @click="register()">注册</button>
       </div>
-
+      <p class="login-form-register">
+        <router-link to="/login">去登陆</router-link>
+      </p>
       <p class="reg-bottom">服务条款</p>
     </div>
   </div>
@@ -81,6 +83,7 @@ export default {
             this.IsCodeMsg = false;
             this.codeMsg = "重新获取验证码";
             this.settimeInt = 60;
+            clearInterval(this.setTiem);
           }
         }, 1000);
       }
@@ -88,6 +91,7 @@ export default {
     getSmsCode() {
       this.$native.getSmsCode({ phoneNumber: this.phone }).then(p => {
         this.resCode = p.JSONResult.verifyCode;
+        this.verification = this.resCode;
       });
     },
     register() {

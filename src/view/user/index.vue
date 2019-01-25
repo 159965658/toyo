@@ -7,7 +7,7 @@
         <div class="app-cardcase-con-dis">
           <img :src="user.avatarurl" alt>
           <div class="app-cardcase-con-dis-p">
-            <p class="name">{{user.nickname}}</p>
+            <p class="name">{{user.actualname}}</p>
             <p class="phone">{{user.phonenumber}}</p>
           </div>
         </div>
@@ -52,6 +52,10 @@ export default {
     getUser() {
       this.$native.getValueFromLocal("user").then(data => {
         this.user = data.RESULT;
+        if (!this.user.avatarurl) {
+          this.user.avatarurl =
+            "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg";
+        }
       });
     },
     outClick() {

@@ -12,6 +12,7 @@
 <script>
 import vehicleList from "./vehicle-list.vue";
 import appHeader from "@c/vehicle-header";
+//使用borrowStatus字段进行状态显示：01申请中/02用车中/03已还车/04故障中
 export default {
   components: {
     vehicleList,
@@ -39,10 +40,12 @@ export default {
       this.user = this.$cache.getUser();
     },
     getCarListByUserId() {
-      const user = this.user;
+      const user = this.user,
+        query = this.$route.query,
+        params = query && query.UserId;
       this.$native
         .getCarListByUserId({
-          UserId: user.userid,
+          UserId: params || user.userid,
           currPage: this.par.pageIndex
         })
         .then(data => {

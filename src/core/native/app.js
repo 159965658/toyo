@@ -21,7 +21,7 @@ window.console.log(ua, platform);
 
 
 (function (window) {
-   
+
     window['$error'] = function (data) { //处理失败请求 
         window.$vm.$native.loadHide();
         if (data)

@@ -13,7 +13,7 @@
 }
 
 .icon-use {
-    background-image: url('../../static/icon/use.png');
+    background-image: url('../../static/icon/use_icon.png');
 }
 
 .active>.icon-use {
@@ -192,6 +192,7 @@
     height: 0.88667rem;
     line-height: 0.88667rem;
 } */
+
 /* 
 .van-picker__title,
 .van-picker__cancel,
@@ -200,7 +201,7 @@
 } */
 
 .van-picker__frame {
- position: absolute !important;
+    position: absolute !important;
 }
 
 /* .van-picker-column {
@@ -210,7 +211,8 @@
     text-align: center;
 } */
 
-
 .van-toast {
-   z-index: 1000000 !important;
+    z-index: 1000000 !important;
+    min-width: 90px;
+    width: inherit !important;
 }

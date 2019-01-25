@@ -4,6 +4,8 @@
     <div class="my-qrcode-code" id="qrcode">
       <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
     </div>
+
+    <p class="remark">对方可通过“好友-添加-扫描二维码”向您发出申请</p>
   </div>
 </template>
 
@@ -45,6 +47,10 @@ export default {
     justify-content: center;
     align-items: center;
     height: 80%;
+  }
+  .remark {
+    color: @defaultColor;
+    text-align: center;
   }
 }
 </style>

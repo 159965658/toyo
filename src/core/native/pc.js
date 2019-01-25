@@ -21,7 +21,7 @@ const apis = {
                         "actualname": "张三",
                         "gender": null,
                         "phonenumber": "12345678",
-                        "avatarurl": "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg",
+                        "avatarurl": "",
                         "remarks": null,
                         "creattime": 1547196998000,
                         "updatetime": null
@@ -29,6 +29,26 @@ const apis = {
                 }
             }
             apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    //确认 好友
+    confirmAddFriend({ userId, friendId, status: status }) {
+        //唤醒loadding
+        window.showLoading();
+
+        var p = new Promise(function (resolve, reject) {
+            const par = { userId: userId, friendId: friendId, status: status };
+            //js_user_login
+            window.console.log(par, 'fun:', "js_friends_confirmAddFriend");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true,
+            }
+            setTimeout(() => {
+                apis.resFun(resolve, reject, response, 0);
+            }, 3000);
         });
         return p;
     },
@@ -495,13 +515,13 @@ const apis = {
                             "id": "9727be85916a4aebb7b08bae0edfda72",
                             "userid": "13000000004",
                             "u_nickname": "004",
-                            "u_actualname": "",
+                            "u_actualname": "005",
                             "u_gender": "",
                             "u_phonenumber": "13000000004",
                             "u_avatarurl": "",
                             "friendUserid": "13000000001",
-                            "uf_nickname": "001",
-                            "uf_actualname": "",
+                            "uf_nickname": "003",
+                            "uf_actualname": "003",
                             "uf_gender": "",
                             "uf_phonenumber": "13000000001",
                             "uf_avatarurl": "",

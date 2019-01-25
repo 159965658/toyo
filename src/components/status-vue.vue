@@ -1,9 +1,9 @@
 <template>
   <div class="vehicle-list-body-status">
-    <span v-if="status == '01'" class="free">闲置中</span>
-    <span v-if="status == '02'" class="busy">预约外借中</span>
-    <span v-if="status == '03'" class="reserve">外借中</span>
-    <span v-if="status == '04'" class="free">车辆故障</span>
+    <span v-if="status == '01'" class="free">申请中</span>
+    <span v-if="status == '02'" class="busy">用车中</span>
+    <span v-if="status == '03'" class="reserve">已还车</span>
+    <span v-if="status == '04'" class="free">故障中</span>
   </div>
 </template>
 

@@ -45,6 +45,10 @@
               <i class="my-icon icon-jieche"></i>
               <span v-if="carStatus.id == 1 ">借车人：{{item.actualName}}</span>
               <span v-if="carStatus.id == 2 ">车主：{{item.actualName}}</span>
+              <!-- 借出方 -->
+              <span v-if="user.userid == item.fromUserId">车主：{{item.actualName}}</span>
+              <!-- 借入方 -->
+              <span v-if="user.userid == item.toUserId">借车人：{{item.actualName}}</span>
             </p>
             <p class="endtiem">
               <i class="my-icon icon-endtime"></i>

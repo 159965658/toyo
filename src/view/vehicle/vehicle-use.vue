@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { carStatusArr, carUseArr } from "@dist/status";
+import { carStatusArr, carUseArr, carType } from "@dist/status";
 import appHeader from "@c/vehicle-header";
 import useList from "./use/use-list";
 import filterVue from "./filter-vue";
@@ -82,18 +82,19 @@ export default {
     return {
       columns: carStatusArr,
       columns1: carUseArr,
-      columns2: [{ id: "22", text: "名字" }],
+      columns2: carType,
       title: "用车",
       rightText: "历史用车",
       ispicker0: false,
       ispicker1: false,
       ispicker2: false,
       useArr: [],
+      allArr: [],
       isLoading: false,
       loading: false,
       finished: false,
       par: {
-        pageIndex: 0,
+        pageIndex: 1,
         pageSize: 10
       },
       clickRight: this.clickRightFun,
@@ -120,14 +121,51 @@ export default {
     onPickerConfirm(value) {
       this.currItem = value;
       this.clickOverlay(0);
+      this.serchUseCar();
     },
     onPickerConfirm1(value) {
       this.currUseItem = value;
       this.clickOverlay(1);
+      this.serchUseCar();
     },
     onPickerConfirm2(value) {
       this.currUseName = value;
       this.clickOverlay(2);
+      this.serchUseCar();
+    },
+    serchUseCar() {
+      const c1 = this.currItem,
+        c2 = this.currUseItem,
+        c3 = this.currUseName;
+      let list = this.allArr;
+      if (c1.id > 0) {
+        if (c1.id == 1) {
+          //借出
+          list = list.filter(p => p.fromUserId == this.user.userid);
+        } else {
+          //借入
+          list = list.filter(p => p.toUserId == this.user.userid);
+        }
+      }
+      if (c2.id > 0) {
+        const currDate = new Date().getTime();
+        if (c2.id == 1) {
+          //预定
+          list = list.filter(p => p.borrowFromTime > currDate);
+        } else {
+          //用车
+          list = list.filter(
+            p => currDate > p.borrowFromTime && currDate < p.borrowToTime
+          );
+        }
+      }
+      if (c3.id > 0) {
+        const type = c3.text.toLowerCase();
+        list = list.filter(
+          p => p.brandModelNumber.toLowerCase().indexOf(type) > -1
+        );
+      }
+      this.useArr = list;
     },
     downClick(type) {
       this.$toastFull.isBack = true;
@@ -154,20 +192,24 @@ export default {
       this.isLoading = false;
       this.finished = false;
       const res = data.JSONResult.BorrowCarRecordList;
-      if (this.par.pageIndex == 1) {
-        this.useArr = res;
-      } else {
-        this.useArr = this.useArr.concat(res);
-      }
+      // if (this.par.pageIndex == 1) {
+      this.allArr = res;
+      // this.useArr = res;
+      // }
+      this.serchUseCar();
+      // else {
+      //   this.useArr = this.useArr.concat(res);
+      // }
       //到底了
-      if (this.par.pageSize > res.length) this.finished = true;
+      // if (this.par.pageSize > res.length)
+      this.finished = true;
     },
     onRefresh() {
       this.par.pageIndex = 1;
       this.getBorrowCarListByUserId();
     },
     onLoad() {
-      this.par.pageIndex++;
+      // this.par.pageIndex++;
       this.getBorrowCarListByUserId();
     }
   }

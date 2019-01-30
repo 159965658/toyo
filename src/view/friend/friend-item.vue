@@ -1,12 +1,17 @@
 <template>
   <div class="friend-item" @click="itemClick(item)" v-if="item.status < 3">
-    <div class="friend-item-fun" v-if="show" @click.stop="hrefCar(item)">
+    <div class="friend-item-fun" v-if="item.show" @click.stop="hrefCar(item)">
       <span class="triangle-up"></span>
       <p class="fun-p">借出车辆</p>
     </div>
     <div class="friend-item-info">
-      <img v-if="item.status == 1" :src="item.u_avatarurl" alt srcset>
-      <img v-else-if="item.status == 2" :src="item.uf_avatarurl" alt srcset>
+      <img
+        v-if="item.status == 1 && item.u_avatarurl"
+        :src="item.u_avatarurl"
+        :onerror="defaultImg"
+      >
+      <img v-else-if="item.status == 2 && item.u_avatarurl" :src="item.uf_avatarurl">
+      <img v-else src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg" alt>
       <div class="friend-item-info-p">
         <p class="name">{{item.status == 1 ? item.u_actualname : item.uf_actualname}}</p>
         <p class="phone">{{item.status == 1 ? item.u_phonenumber : item.uf_phonenumber}}</p>
@@ -21,12 +26,18 @@ import statusVue from "./status-vue";
 // status为2时使用friendUserid和uf_开头的字段进行显示和使用
 export default {
   props: { item: {}, user: {}, show: { type: Boolean, default: false } },
+  data() {
+    return {
+      defaultImg:
+        "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg"
+    };
+  },
   components: {
     statusVue
   },
   methods: {
     hrefCar(item) {
-      this.$router.push(`/main/vehicle?UserId=${item.friendUserid}`);
+      this.$router.push(`/main/vehicle?UserId=${item.userid}`);
     },
     itemClick(item) {
       if (item.status == 1) {
@@ -34,7 +45,7 @@ export default {
         this.confirmFriend(item);
         return;
       } else {
-        this.show = !this.show;
+        this.$emit("itemClick", item);
       }
     },
     confirmFriend(item) {
@@ -62,13 +73,7 @@ export default {
         })
         .then(() => {
           setTimeout(() => {
-            if (status == 2) {
-              this.$toast.success("添加好友成功");
-              item.status = "2";
-            } else {
-              this.$toast.success("拒绝好友成功");
-              item.status = "3";
-            }
+            this.$emit("opFriend", status);
           }, 1);
         });
     }

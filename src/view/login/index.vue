@@ -4,7 +4,13 @@
     <div class="login-form">
       <div class="login-form-input phone">
         <!-- <i class="my-icon login-icon"></i> -->
-        <input type="text" name="phone" v-model="phone" :placeholder="placeholder.phone">
+        <input
+          type="text"
+          name="phone"
+          v-model="phone"
+          maxlength="11"
+          :placeholder="placeholder.phone"
+        >
       </div>
       <div class="login-form-input password">
         <input type="password" name="pwd" v-model="pwd" :placeholder="placeholder.pwd">
@@ -55,18 +61,16 @@ export default {
       this.ajaxLogin(phone, pwd);
     },
     ajaxLogin(phone, pwd) {
-      this.$native
-        .login({ phoneNumber: phone, password: pwd })
-        .then(p => {
-          this.$native
-            .saveValueToLoacl({
-              user: JSON.stringify(p.JSONResult.UsrInfo)
-            })
-            .then(() => {
-              //数据存储成功
-              this.$router.replace("/main/vehicle");
-            });
-        })
+      this.$native.login({ phoneNumber: phone, password: pwd }).then(p => {
+        this.$native
+          .saveValueToLoacl({
+            user: JSON.stringify(p.JSONResult.UsrInfo)
+          })
+          .then(() => {
+            //数据存储成功
+            this.$router.replace("/main/vehicle");
+          });
+      });
     }
   }
 };

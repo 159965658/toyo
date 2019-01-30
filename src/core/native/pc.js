@@ -16,11 +16,11 @@ const apis = {
                 "JSONResult": {
                     "UsrInfo": {
                         "id": "41b83b4fca5541f18e02632b348257d3",
-                        "userid": "12345678",
+                        "userid": "13000000001",
                         "nickname": 'ceshi',
                         "actualname": "张三",
                         "gender": null,
-                        "phonenumber": "12345678",
+                        "phonenumber": "13000000001",
                         "avatarurl": "",
                         "remarks": null,
                         "creattime": 1547196998000,
@@ -414,7 +414,7 @@ const apis = {
             apis.resFun(resolve, reject, {
                 "MESSAGE": "正常终了",
                 "CODE": "011000",
-                "SUCCESS": true,
+                "SUCCESS": false,
                 "JSONResult": {
                     "CarInfoList": response.JSONResult.CarInfoList.slice(currPage - 1, 10)
                 }
@@ -438,13 +438,14 @@ const apis = {
                             "carId": "CAR_001",
                             "fromUserId": "13000000001",
                             "toUserId": "13000000002",
-                            "borrowFromTime": 1548480191000,
+                            "borrowFromTime": 1547709032000,
                             "borrowToTime": 1547723441000,
                             "borrowStatus": "02",
                             "electronicToken": "",
                             "electronicKey": "",
+                            "carName": "熊大的ES200x",
                             "plateNumber": "京A00001",
-                            "brandModelNumber": "ES200x",
+                            "brandModelNumber": "雷克萨斯ES200x",
                             "vehicleType": "小型普通客车",
                             "vin": "LFMAPE2C7A0185481",
                             "engineNumber": "F000001",
@@ -454,10 +455,35 @@ const apis = {
                             "latitude": "39.98220",
                             "carStatus": "03",
                             "fromNickName": "001",
-                            "fromActualName": "",
+                            "fromActualName": "456",
                             "toNickName": "002",
-                            "toActualName": "",
+                            "toActualName": "456",
                             "id": "41b83b4fca5541f18e02632b34825710"
+                        }, {
+                            "carId": "CAR_001",
+                            "fromUserId": "13000000002",
+                            "toUserId": "13000000003",
+                            "borrowFromTime": 1547709032000,
+                            "borrowToTime": 1547723441000,
+                            "borrowStatus": "02",
+                            "electronicToken": "",
+                            "electronicKey": "",
+                            "carName": "熊的ES200x",
+                            "plateNumber": "京A00001",
+                            "brandModelNumber": "雷克萨斯ES200x",
+                            "vehicleType": "小型普通客车",
+                            "vin": "LFMAPE2C7A0185481",
+                            "engineNumber": "F000001",
+                            "natureOfUse": "01",
+                            "registrationDate": "20170101",
+                            "longitude": "116.30710",
+                            "latitude": "39.98220",
+                            "carStatus": "03",
+                            "fromNickName": "001",
+                            "fromActualName": "123",
+                            "toNickName": "002",
+                            "toActualName": "123",
+                            "id": "41b83b4fca5541f18e02632b34825711"
                         }
                     ]
                 }
@@ -490,11 +516,7 @@ const apis = {
         var p = new Promise(function (resolve, reject) {
             const par = key;
             window.console.log(par, 'fun:', "js_app_getValueFromLocal");
-            let response = {
-                "MESSAGE": "读取成功",
-                "SUCCESS": true,
-                "RESULT": "彭辉"
-            }
+            let response = "{\"SUCCESS\":true,\"RESULT\":\"{\\\"actualname\\\":\\\"车主\\\",\\\"creattime\\\":1547196998000,\\\"phonenumber\\\":\\\"13000000003\\\",\\\"id\\\":\\\"41b83b4fca5541f18e02632b348257d3\\\",\\\"avatarurl\\\":\\\"\\\",\\\"password\\\":null,\\\"nickname\\\":\\\"003\\\",\\\"gender\\\":\\\"\\\",\\\"userid\\\":\\\"13000000003\\\",\\\"updatetime\\\":1547436147000,\\\"remarks\\\":\\\"\\\"}\",\"MESSAGE\":\"读取成功\"}"
             response.RESULT = window.$cache.getUser();
             apis.resFun(resolve, reject, response);
         });
@@ -677,9 +699,9 @@ const apis = {
         return p;
     },
     // 获取历史用车车辆订单列表
-    getHistoricalVehicleRecordList({ userId, likeDate, carId, borrowCarState, currPage }) {
+    getHistoricalVehicleRecordList(par) {
         var p = new Promise(function (resolve, reject) {
-            const par = { userId: userId, likeDate: likeDate, carId: carId, borrowCarState: borrowCarState, currPage };
+            // const par = par;
             window.console.log(par, 'fun:', "js_borrowCar_getHistoricalVehicleRecordList");
             let response = {
                 "MESSAGE": "正常终了",
@@ -699,6 +721,18 @@ const apis = {
                             "nickName": "001",
                             "actualName": "001",
                             "id": "41b83b4fca5541f18e02632b34825710"
+                        }, {
+                            "carId": "CAR_010",
+                            "fromUserId": "13000000003",
+                            "toUserId": "13000000002",
+                            "borrowFromTime": 1547709032000,
+                            "borrowToTime": 1547724360000,
+                            "borrowStatus": "03",
+                            "electronicToken": "",
+                            "electronicKey": "",
+                            "nickName": "001",
+                            "actualName": "002",
+                            "id": "41b83b4fca5541f18e02632b34825711"
                         }
                     ]
                 }
@@ -707,18 +741,18 @@ const apis = {
         });
         return p;
     },
-    resFun(resolve, reject, response, time = 0) {
-        setTimeout(() => {
-            if (response.SUCCESS) {
-                window.clearLoading();
-                resolve(response);
-            }
-            else {
-                window.clearLoading();
-                apis.error(response.MESSAGE);
-                reject(response.MESSAGE);
-            }
-        }, time);
+    resFun(resolve, reject, response) {
+        // setTimeout(() => {
+        if (response.SUCCESS) {
+            window.clearLoading();
+            resolve(response);
+        }
+        else {
+            window.clearLoading();
+            apis.error(response.MESSAGE);
+            reject(response.MESSAGE);
+        }
+        // }, time);
     },
     error(text) {
         setTimeout(() => {

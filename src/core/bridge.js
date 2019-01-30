@@ -224,12 +224,12 @@ const apis = {
         return p;
     },
     // 获取历史用车车辆订单列表
-    getHistoricalVehicleRecordList({ userId, likeDate, carId, borrowCarState, currPage }) {
+    getHistoricalVehicleRecordList(par) {
         const vm = window.$vm;
         var p = new Promise(function (resolve, reject) {
             vm.$native.callhandler(
                 "js_borrowCar_getHistoricalVehicleRecordList",
-                { userId: userId, likeDate: likeDate, carId: carId, borrowCarState: borrowCarState, currPage },
+                par,
                 data => {
                     apis.resFun(resolve, reject, data)
                 }

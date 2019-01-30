@@ -18,8 +18,21 @@
       </ul>
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <use-list v-for="item in useArr" :key="item.id" :item="item"></use-list>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :error.sync="errorFlag"
+        :error-text="errorText"
+      >
+        <use-list
+          v-for="item in useArr"
+          :key="item.id"
+          :item="item"
+          :user="user"
+          :carStatus="currItem"
+        ></use-list>
       </van-list>
     </van-pull-refresh>
     <van-popup
@@ -68,7 +81,7 @@
 </template>
 
 <script>
-import { carStatusArr, carUseArr, carType } from "@dist/status";
+import { carStatusArr, carUseArr } from "@dist/status";
 import appHeader from "@c/vehicle-header";
 import useList from "./use/use-list";
 import filterVue from "./filter-vue";
@@ -82,7 +95,7 @@ export default {
     return {
       columns: carStatusArr,
       columns1: carUseArr,
-      columns2: carType,
+      columns2: [{ id: 0, text: "全部车辆" }],
       title: "用车",
       rightText: "历史用车",
       ispicker0: false,
@@ -101,7 +114,9 @@ export default {
       user: {},
       currItem: {},
       currUseItem: {},
-      currUseName: {}
+      currUseName: {},
+      errorFlag: false,
+      errorText: "请求失败，点击重新加载"
     };
   },
   mounted() {
@@ -159,11 +174,8 @@ export default {
           );
         }
       }
-      if (c3.id > 0) {
-        const type = c3.text.toLowerCase();
-        list = list.filter(
-          p => p.brandModelNumber.toLowerCase().indexOf(type) > -1
-        );
+      if (c3.id != 0) {
+        list = list.filter(p => p.carName == c3.text);
       }
       this.useArr = list;
     },
@@ -184,6 +196,10 @@ export default {
         })
         .then(data => {
           this.setUseArr(data);
+        })
+        .catch(() => {
+          this.loading = false;
+          this.errorFlag = true;
         });
     },
     setUseArr(data) {
@@ -194,8 +210,9 @@ export default {
       const res = data.JSONResult.BorrowCarRecordList;
       // if (this.par.pageIndex == 1) {
       this.allArr = res;
-      // this.useArr = res;
-      // }
+      res.forEach(item => {
+        this.columns2.push({ id: item.carId, text: item.carName });
+      });
       this.serchUseCar();
       // else {
       //   this.useArr = this.useArr.concat(res);

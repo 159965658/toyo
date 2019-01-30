@@ -1,7 +1,7 @@
 <template>
   <div class="use-item" @click="hrefCar(item)">
     <div class="use-item-con">
-      <p class="name">{{item.brandModelNumber}}</p>
+      <p class="name">{{item.carName}}</p>
       <p class="endtime">
         <i class="my-icon icon-endtime"></i>
         结束用车：{{item.borrowToTime | timeStamp('yyyy/MM/dd hh:mm')}}
@@ -12,14 +12,20 @@
       </p>
       <p class="useperson">
         <i class="my-icon icon-useperson"></i>
-        借车人：{{item.toActualName}}
+        <!-- 借车人：{{item.toActualName}} -->
+        <span v-if="carStatus.id == 1 ">借车人：{{item.toActualName}}</span>
+        <span v-else-if="carStatus.id == 2 ">车主：{{item.fromActualName}}</span>
+        <!-- 借出方 -->
+        <span v-else-if="user.userid == item.fromUserId">借车人：{{item.toActualName}}</span>
+        <!-- 借入方 -->
+        <span v-else>车主：{{item.fromActualName}}</span>
       </p>
     </div>
     <div class="use-item-car">
       <div class="img">
         <app-img :url="item.brandModelNumber"></app-img>
       </div>
-      <status-vue :status="item.carStatus"></status-vue>
+      <status-vue :status="item.borrowStatus"></status-vue>
     </div>
   </div>
 </template>
@@ -29,7 +35,7 @@ import statusVue from "@c/status-vue";
 
 import appImg from "@c/app-carimg";
 export default {
-  props: ["item"],
+  props: ["item", "user", "carStatus"],
   components: {
     statusVue,
     appImg

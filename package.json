@@ -11,7 +11,7 @@
   "dependencies": {
     "amfe-flexible": "^2.2.1",
     "qrcode.vue": "^1.6.1",
-    "vant": "^1.4.1",
+    "vant": "^1.5.7",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },

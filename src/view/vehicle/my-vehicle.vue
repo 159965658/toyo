@@ -2,7 +2,14 @@
   <div class="my-vehicle">
     <app-header :title="title"></app-header>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :error.sync="errorFlag"
+        :error-text="errorText"
+      >
         <vehicle-list v-for="item in vehicleArr" :key="item.id" :item="item"></vehicle-list>
       </van-list>
     </van-pull-refresh>
@@ -29,7 +36,9 @@ export default {
         pageIndex: 0,
         pageSize: 10
       },
-      user: {}
+      user: {},
+      errorFlag: false,
+      errorText: "请求失败，点击重新加载"
     };
   },
   mounted() {
@@ -50,10 +59,14 @@ export default {
         })
         .then(data => {
           this.setVehArr(data);
+        })
+        .catch(() => {
+          this.loading = false;
+          this.errorFlag = true;
         });
     },
     setVehArr(data) {
-      // 加载状态结束
+      // 加载状态结束;
       this.loading = false;
       this.isLoading = false;
       this.finished = false;

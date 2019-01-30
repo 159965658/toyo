@@ -5,14 +5,19 @@
     <div class="app-cardcase">
       <div class="app-cardcase-con">
         <div class="app-cardcase-con-dis">
-          <img :src="user.avatarurl" alt>
+          <img v-if="user.avatarurl" :src="user.avatarurl" alt>
+          <img
+            v-else
+            src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg"
+            alt
+          >
           <div class="app-cardcase-con-dis-p">
             <p class="name">{{user.actualname}}</p>
             <p class="phone">{{user.phonenumber}}</p>
           </div>
         </div>
         <!-- <button><i class="my-icon icon-edit"></button> -->
-        <button>修改</button>
+        <!-- <button>修改</button> -->
       </div>
     </div>
     <div class="mine-list">
@@ -51,11 +56,11 @@ export default {
     },
     getUser() {
       this.$native.getValueFromLocal("user").then(data => {
-        this.user = data.RESULT;
-        if (!this.user.avatarurl) {
-          this.user.avatarurl =
-            "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg";
-        }
+        this.user = JSON.parse(data.RESULT);
+        // if (!this.user.avatarurl) {
+        //   this.user.avatarurl =
+        //     "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg";
+        // }
       });
     },
     outClick() {

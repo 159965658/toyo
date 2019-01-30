@@ -2,8 +2,22 @@
   <div class="friend" ref="funVue">
     <app-header :title="title" :clickRight="clickRight"></app-header>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <friend-item v-for="item in friendArr" :user="user" :key="item.id" :item="item"></friend-item>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+        :error.sync="errorFlag"
+        :error-text="errorText"
+      >
+        <friend-item
+          v-for="item in friendArr"
+          :user="user"
+          :key="item.id"
+          :item="item"
+          @opFriend="opFriend"
+          @itemClick="itemClick"
+        ></friend-item>
       </van-list>
     </van-pull-refresh>
     <fun-vue v-show="isfunVue" @qrCodeClick="qrCode" @search="searchFriend"></fun-vue>
@@ -37,7 +51,9 @@ export default {
       par: {
         pageIndex: 0,
         pageSize: 10
-      }
+      },
+      errorFlag: false,
+      errorText: "请求失败，点击重新加载"
     };
   },
   beforeDestroy() {
@@ -50,6 +66,20 @@ export default {
     }, 1);
   },
   methods: {
+    itemClick(currentItem) {
+      this.friendArr.forEach(item => {
+        // if (item.id == currentItem.id)
+        item.show = false;
+      });
+      currentItem.show = true;
+    },
+    opFriend(status) {
+      if (status == 2) {
+        this.$toast.success("添加好友成功");
+      } else {
+        this.$toast.success("拒绝好友成功");
+      }
+    },
     submitFriend(phone, name) {
       this.addFriend(
         {
@@ -118,6 +148,10 @@ export default {
         })
         .then(data => {
           this.setVehArr(data);
+        })
+        .catch(() => {
+          this.loading = false;
+          this.errorFlag = true;
         });
     },
     setVehArr(data) {
@@ -126,6 +160,9 @@ export default {
       this.isLoading = false;
       this.finished = false;
       const res = data.JSONResult.FriendRelationList;
+      res.forEach(item => {
+        item.show = false;
+      });
       if (this.par.pageIndex == 1) {
         this.friendArr = res;
       } else {

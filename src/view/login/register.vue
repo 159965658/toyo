@@ -1,9 +1,20 @@
 <template>
   <div class="register y-body">
+    <div class="my-back">
+      <router-link to="/login">
+        <van-icon name="arrow-left"/>
+      </router-link>
+    </div>
     <app-head></app-head>
     <div class="login-form">
       <div class="login-form-input phone">
-        <input type="text" name="phone" v-model="phone" :placeholder="placeholder.phone">
+        <input
+          type="text"
+          name="phone"
+          v-model="phone"
+          maxlength="11"
+          :placeholder="placeholder.phone"
+        >
       </div>
       <div class="login-form-input password">
         <input type="password" name="pwd" v-model="setPwd" :placeholder="placeholder.setPwd">
@@ -28,9 +39,9 @@
       <div class="login-form-button">
         <button @click="register()">注册</button>
       </div>
-      <p class="login-form-register">
-        <router-link to="/login">去登陆</router-link>
-      </p>
+      <!-- <p class="login-form-register">
+        <router-link to="/login">返回登陆</router-link>
+      </p>-->
       <p class="reg-bottom">服务条款</p>
     </div>
   </div>
@@ -141,6 +152,11 @@ export default {
 
 <style lang="less" scoped>
 .register {
+  .my-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
   .login-header {
     margin: 0 auto;
   }

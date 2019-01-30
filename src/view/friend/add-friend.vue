@@ -39,13 +39,15 @@ export default {
         this.msg = "请输入姓名";
       } else if (!this.$$checkName(name)) {
         this.msg = "姓名不能包含特殊字符";
+      } else if (phone == user.phonenumber) {
+        this.msg = "无法向自己发出申请";
       } else if (phone == user.phonenumber && name == user.actualname) {
         this.msg = "无法向自己发出申请";
       } else {
         this.msg = "";
         this.$emit("submit", phone, name);
       }
-    }
+    } 
   }
 };
 </script>

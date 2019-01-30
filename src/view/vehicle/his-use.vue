@@ -32,7 +32,8 @@
           <i class="my-icon icon-down"></i>
         </li>
         <li @click="carFilterDateFun">
-          {{currentDate | formatDate('yyyy-MM')}}
+          <span v-if="currentDate !=''">{{currentDate | formatDate('yyyy-MM')}}</span>
+          <span v-else>全部时段</span>
           <i class="my-icon icon-down"></i>
         </li>
       </ul>
@@ -44,11 +45,11 @@
             <p class="jieche">
               <i class="my-icon icon-jieche"></i>
               <span v-if="carStatus.id == 1 ">借车人：{{item.actualName}}</span>
-              <span v-if="carStatus.id == 2 ">车主：{{item.actualName}}</span>
+              <span v-else-if="carStatus.id == 2 ">车主：{{item.actualName}}</span>
               <!-- 借出方 -->
-              <span v-if="user.userid == item.fromUserId">车主：{{item.actualName}}</span>
+              <span v-else-if="user.userid == item.fromUserId">借车人：{{item.actualName}}</span>
               <!-- 借入方 -->
-              <span v-if="user.userid == item.toUserId">借车人：{{item.actualName}}</span>
+              <span v-else>车主：{{item.actualName}}</span>
             </p>
             <p class="endtiem">
               <i class="my-icon icon-endtime"></i>
@@ -102,7 +103,7 @@ export default {
       columns: carStatusArr,
       currentModelDate: new Date(),
       maxDate: new Date(),
-      currentDate: new Date(),
+      currentDate: "",
       // carStatusArr: [{ id: 1, text: "借出" }, { id: 2, text: "借入" }],
       ispicker: false,
       ispickerDate: false,
@@ -183,17 +184,21 @@ export default {
     getHistoricalVehicleRecordList() {
       const user = this.user,
         param = this.currentItem;
-      this.$native
-        .getHistoricalVehicleRecordList({
-          userId: user.userid,
-          likeDate: this.$$formatDate(this.currentDate, "yyyy-MM"),
-          carId: param.carid,
-          borrowCarState: this.carStatus.id,
-          currPage: this.par.pageIndex
-        })
-        .then(data => {
-          this.setUseArr(data);
-        });
+      let par = {
+        userId: user.userid,
+        likeDate: "",
+        carId: param.carid,
+        borrowCarState: this.carStatus.id == 0 ? "" : this.carStatus.id,
+        currPage: this.par.pageIndex
+      };
+      if (this.currentDate != "") {
+        par.likeDate = this.$$formatDate(this.currentDate, "yyyy-MM");
+      } else {
+        delete par.likeDate;
+      }
+      this.$native.getHistoricalVehicleRecordList(par).then(data => {
+        this.setUseArr(data);
+      });
     },
     setUseArr(data) {
       // 加载状态结束
@@ -242,9 +247,13 @@ export default {
       height: 98px;
       border-bottom: 1px solid #cbcdd0;
       display: flex;
+
       justify-content: space-around;
       //   align-items: center;
       line-height: 98px;
+      .jieche {
+        width: 250px;
+      }
       &:nth-of-type(even) {
         background: rgba(203, 205, 208, 0.1);
         // opacity: 0.1;
@@ -339,7 +348,7 @@ export default {
   min-height: 335px;
 }
 .itme-con {
-  width: ceil(317.5px + 310px) !important;
+  width: ceil(317.5px + 380px) !important;
 
   .item-con-body {
     justify-content: center;

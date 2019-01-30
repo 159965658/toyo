@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import statusVue from "@c/status-vue";
+import statusVue from "./status-vue";
 import appImg from "@c/app-carimg";
 export default {
   props: ["item"],

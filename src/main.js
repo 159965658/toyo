@@ -2,9 +2,9 @@ import Vue from 'vue';
 import App from './App';
 import 'amfe-flexible';
 import { router } from './router';
-import { PullRefresh, List, Toast, NavBar, Icon, Swipe, SwipeItem, Popup, Picker, Dialog, DatetimePicker, Lazyload } from 'vant';//下拉刷新  
+import { SwipeCell, Cell, CellGroup, Field, PullRefresh, List, Toast, NavBar, Icon, Swipe, SwipeItem, Popup, Picker, Dialog, DatetimePicker, Lazyload } from 'vant';//下拉刷新  
 
-Vue.use(Swipe).use(SwipeItem).use(Popup); Vue.use(DatetimePicker);
+Vue.use(Swipe).use(SwipeItem).use(Popup).use(SwipeCell); Vue.use(DatetimePicker);
 Vue.use(Icon);
 Vue.use(NavBar);
 Vue.use(List);
@@ -13,6 +13,8 @@ Vue.use(Picker);
 Vue.use(PullRefresh);
 Vue.use(Lazyload);
 Vue.use(Dialog);
+Vue.use(Field);
+Vue.use(Cell).use(CellGroup);
 import { native } from './core/native/app'
 
 import { cache } from './core/cache'

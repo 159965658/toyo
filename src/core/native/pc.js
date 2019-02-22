@@ -516,8 +516,8 @@ const apis = {
         var p = new Promise(function (resolve, reject) {
             const par = key;
             window.console.log(par, 'fun:', "js_app_getValueFromLocal");
-            let response = "{\"SUCCESS\":true,\"RESULT\":\"{\\\"actualname\\\":\\\"车主\\\",\\\"creattime\\\":1547196998000,\\\"phonenumber\\\":\\\"13000000003\\\",\\\"id\\\":\\\"41b83b4fca5541f18e02632b348257d3\\\",\\\"avatarurl\\\":\\\"\\\",\\\"password\\\":null,\\\"nickname\\\":\\\"003\\\",\\\"gender\\\":\\\"\\\",\\\"userid\\\":\\\"13000000003\\\",\\\"updatetime\\\":1547436147000,\\\"remarks\\\":\\\"\\\"}\",\"MESSAGE\":\"读取成功\"}"
-            response.RESULT = window.$cache.getUser();
+            let response = JSON.parse("{\"SUCCESS\":true,\"RESULT\":\"{\\\"actualname\\\":\\\"车主\\\",\\\"creattime\\\":1547196998000,\\\"phonenumber\\\":\\\"13000000003\\\",\\\"id\\\":\\\"41b83b4fca5541f18e02632b348257d3\\\",\\\"avatarurl\\\":\\\"\\\",\\\"password\\\":null,\\\"nickname\\\":\\\"003\\\",\\\"gender\\\":\\\"\\\",\\\"userid\\\":\\\"13000000003\\\",\\\"updatetime\\\":1547436147000,\\\"remarks\\\":\\\"\\\"}\",\"MESSAGE\":\"读取成功\"}");
+            response.RESULT = JSON.stringify(window.$cache.getUser());
             apis.resFun(resolve, reject, response);
         });
         return p;
@@ -738,6 +738,38 @@ const apis = {
                 }
             }
             apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    // 更新用户信息
+    updateUserInfo({ phoneNumber, actualName }) {
+        var p = new Promise(function (resolve, reject) {
+            // const par = par;
+            window.console.log(phoneNumber, actualName, 'fun:', " js_user_updateUserInfo");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true
+            }
+            apis.resFun(resolve, reject, response);
+        });
+        return p;
+    },
+    // 解除好友关系
+    relievingFriend({ userId, friendUserId }) {
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            // const par = par;
+            window.console.log(userId, friendUserId, 'fun:', " js_friends_relievingFriend");
+            let response = {
+                "MESSAGE": "正常终了",
+                "CODE": "011000",
+                "SUCCESS": true
+            }
+            setTimeout(() => {
+                apis.resFun(resolve, reject, response);
+            }, 3000);
         });
         return p;
     },

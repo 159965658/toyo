@@ -17,7 +17,7 @@
           </div>
         </div>
         <!-- <button><i class="my-icon icon-edit"></button> -->
-        <!-- <button>修改</button> -->
+        <button @click="show=true">修改</button>
       </div>
     </div>
     <div class="mine-list">
@@ -31,6 +31,11 @@
         <i class="my-icon icon-out"></i> 登出
       </div>
     </div>
+    <van-dialog v-model="show" show-cancel-button :before-close="beforeClose" :title="diaTitle">
+      <van-cell-group :border="false">
+        <van-field v-model="username" input-align="center" placeholder="请输入用户名" :error="error"/>
+      </van-cell-group>
+    </van-dialog>
   </div>
 </template>
 
@@ -43,24 +48,58 @@ export default {
   data() {
     return {
       title: "我的",
+      diaTitle: "修改用户名",
       fixed: false,
-      user: {}
+      user: {},
+      show: false,
+      username: "",
+      error: false
     };
   },
   mounted() {
     this.getUser();
   },
   methods: {
+    beforeClose(action, done) {
+      if (action === "confirm") {
+        if (!this.username) {
+          this.error = true;
+          done(false);
+        } else {
+          // setTimeout(done, 1000);
+          this.updata(done);
+        }
+      } else {
+        done();
+      }
+    },
     hrefCode() {
       this.$router.push("/qrcode");
+    },
+    updata(done) {
+      this.$native
+        .updateUserInfo({
+          phoneNumber: this.user.phonenumber,
+          actualName: this.username
+        })
+        .then(() => {
+          this.upAppData(done);
+        });
+    },
+    upAppData(done) {
+      let user = this.user;
+      user.actualname = this.username;
+      this.$native
+        .saveValueToLoacl({
+          user: JSON.stringify(user)
+        })
+        .then(() => {
+          done();
+        });
     },
     getUser() {
       this.$native.getValueFromLocal("user").then(data => {
         this.user = JSON.parse(data.RESULT);
-        // if (!this.user.avatarurl) {
-        //   this.user.avatarurl =
-        //     "http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg";
-        // }
       });
     },
     outClick() {
@@ -72,9 +111,13 @@ export default {
         .then(() => {
           this.$cache.removeAll();
           let th = this;
-          this.$native.saveValueToLoacl({ user: "" }).then(() => {
-            th.$router.replace("/login");
-          });
+          this.$native
+            .saveValueToLoacl({
+              user: ""
+            })
+            .then(() => {
+              th.$router.replace("/login");
+            });
         })
         .catch(() => {
           // on cancel
@@ -84,14 +127,35 @@ export default {
 };
 </script>
 
+<style lang="less">
+.van-dialog__header {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.van-field {
+  input {
+    border-bottom: 1px solid #ebedf0 !important;
+    border-radius: 0px !important;
+    margin: 0 20px;
+    padding: 10px 0px;
+  }
+}
+</style>
+
 <style lang="less" scoped>
+.van-cell {
+  padding: 20px 15px;
+  // padding: 0px 10px;
+}
 .app-my {
   position: relative;
 }
+
 .app-mine {
   height: 128px;
   background-color: #383b41;
 }
+
 .app-cardcase {
   height: 240px;
   width: 690px;
@@ -102,13 +166,16 @@ export default {
   background: #ffffff;
   border: 1px solid #e3e3e3;
   border-radius: 5px;
+
   &-con {
     display: flex;
     align-items: center;
     height: 100%;
     justify-content: space-between;
+
     &-dis {
       display: flex;
+
       > img {
         border: 1px solid #c1c7d0;
         border-radius: 5px;
@@ -116,12 +183,15 @@ export default {
         width: 120px;
         height: 120px;
       }
+
       &-p {
         margin-left: 20px;
+
         > .name {
           font-size: 32px;
           color: #000000;
         }
+
         > .phone {
           margin-top: 12.1px;
           font-size: 28px;
@@ -130,6 +200,7 @@ export default {
         }
       }
     }
+
     > button {
       // margin-left: 204px;
       width: 138px;
@@ -143,12 +214,14 @@ export default {
     }
   }
 }
+
 .mine-list {
   height: 301px;
   background-color: #ffffff;
   margin-top: 171.5px;
   display: flex;
   flex-direction: column;
+
   &-item {
     height: 100px;
     border-bottom: 1px solid #e3e3e3;
@@ -157,10 +230,10 @@ export default {
     padding-left: 60px;
     display: flex;
     align-items: center;
+
     > i {
       margin-right: 21px;
     }
   }
 }
 </style>
-

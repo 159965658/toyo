@@ -1,31 +1,48 @@
 <template>
-  <div class="friend-item" @click="itemClick(item)" v-if="item.status < 3">
-    <div class="friend-item-fun" v-if="item.show" @click.stop="hrefCar(item)">
-      <span class="triangle-up"></span>
-      <p class="fun-p">借出车辆</p>
-    </div>
-    <div class="friend-item-info">
-      <img
-        v-if="item.status == 1 && item.u_avatarurl"
-        :src="item.u_avatarurl"
-        :onerror="defaultImg"
-      >
-      <img v-else-if="item.status == 2 && item.u_avatarurl" :src="item.uf_avatarurl">
-      <img v-else src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg" alt>
-      <div class="friend-item-info-p">
-        <p class="name">{{item.status == 1 ? item.u_actualname : item.uf_actualname}}</p>
-        <p class="phone">{{item.status == 1 ? item.u_phonenumber : item.uf_phonenumber}}</p>
+  <van-swipe-cell
+    :right-width="65"
+    :left-width="0"
+    v-if="item.status < 3"
+    :disabled="item.status == 1"
+    :onClose="onClose"
+  >
+    <!-- @click.stop="itemClick(item)" -->
+    <div class="friend-item" @click.prevent="itemClick(item)">
+      <div class="friend-item-fun" v-if="item.show" @click.stop="hrefCar(item)">
+        <span class="triangle-up"></span>
+        <p class="fun-p">借出车辆</p>
       </div>
+      <div class="friend-item-info">
+        <img
+          v-if="item.status == 1 && item.u_avatarurl"
+          :src="item.u_avatarurl"
+          :onerror="defaultImg"
+        >
+        <img v-else-if="item.status == 2 && item.u_avatarurl" :src="item.uf_avatarurl">
+        <img v-else src="http://img2.imgtn.bdimg.com/it/u=3846895839,2711067435&fm=26&gp=0.jpg" alt>
+        <div class="friend-item-info-p">
+          <p class="name">{{item.status == 1 ? item.u_actualname : item.uf_actualname}}</p>
+          <p class="phone">{{item.status == 1 ? item.u_phonenumber : item.uf_phonenumber}}</p>
+        </div>
+      </div>
+      <status-vue :status="item.status"></status-vue>
     </div>
-    <status-vue :status="item.status"></status-vue>
-  </div>
+    <span slot="right">删除</span>
+  </van-swipe-cell>
 </template>
-  
+
 <script>
 import statusVue from "./status-vue";
 // status为2时使用friendUserid和uf_开头的字段进行显示和使用
 export default {
-  props: { item: {}, user: {}, show: { type: Boolean, default: false } },
+  props: {
+    item: {},
+    user: {},
+    show: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       defaultImg:
@@ -36,6 +53,34 @@ export default {
     statusVue
   },
   methods: {
+    onClose(clickPosition, instance) {
+      switch (clickPosition) {
+        case "cell":
+        case "left":
+        case "outside":
+          instance.close();
+          this.item.show = false;
+          break;
+        case "right":
+          this.$dialog
+            .confirm({
+              message: "确定删除吗？"
+            })
+            .then(() => {
+              instance.close();
+              this.$native
+                .relievingFriend({
+                  userId: this.item.userid,
+                  friendUserId: this.item.friendUserid
+                })
+                .then(() => {
+                  this.$toast.success("删除好友成功");
+                  this.item.status = 5;
+                });
+            });
+          break;
+      }
+    },
     hrefCar(item) {
       this.$router.push(`/main/vehicle?UserId=${item.userid}`);
     },
@@ -80,6 +125,7 @@ export default {
   }
 };
 </script>
+
 <style lang="less" scoped>
 .friend-item {
   background: #ffffff;
@@ -90,12 +136,14 @@ export default {
   padding: 0 30px;
   align-items: center;
   position: relative;
+
   &-fun {
     width: 170px;
     height: 68px;
     background: #c1c7d0;
     position: absolute;
     right: 243px;
+
     > .fun-p {
       font-size: 28px;
       color: #383b41;
@@ -104,9 +152,11 @@ export default {
       line-height: 68px;
     }
   }
+
   &:last-child {
     border-bottom: 1px solid #cbcdd0;
   }
+
   &-info {
     display: flex;
     align-items: center;
@@ -119,12 +169,14 @@ export default {
       height: 88px;
       margin-right: 15px;
     }
+
     &-p {
       > .name {
         font-size: 32px;
         color: #414246;
         line-height: 45px;
       }
+
       > .phone {
         font-size: 28px;
         color: #7f8389;
@@ -133,6 +185,7 @@ export default {
     }
   }
 }
+
 .triangle-up {
   width: 0;
   height: 0;
@@ -143,5 +196,21 @@ export default {
   left: -15px;
   top: 4px;
 }
+</style><style lang="less">
+.van-swipe-cell {
+  &__left,
+  &__right {
+    color: #fff;
+    font-size: 15px;
+    width: 65px;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    // line-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f44;
+  }
+}
 </style>
-

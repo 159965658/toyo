@@ -267,6 +267,40 @@ const apis = {
         });
         return p;
     },
+    // 更新用户信息
+    updateUserInfo({ phoneNumber, actualName }) {
+        const vm = window.$vm;
+        var p = new Promise(function (resolve, reject) {
+            // const par = par;
+            window.console.log(phoneNumber, actualName, 'fun:', " js_user_updateUserInfo");
+            vm.$native.callhandler(
+                "js_user_updateUserInfo",
+                { phoneNumber: phoneNumber, actualName: actualName },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
+    // 解除好友关系
+    relievingFriend({ userId, friendUserId }) {
+        const vm = window.$vm;
+        //唤醒loadding
+        window.showLoading();
+        var p = new Promise(function (resolve, reject) {
+            // const par = par;
+            window.console.log(userId, friendUserId, 'fun:', " js_friends_relievingFriend");
+            vm.$native.callhandler(
+                "js_friends_relievingFriend",
+                { userId: userId, friendUserId: friendUserId },
+                data => {
+                    apis.resFun(resolve, reject, data)
+                }
+            );
+        });
+        return p;
+    },
     resFun(resolve, reject, data) {
         const response = JSON.parse(data);
         if (response.SUCCESS) {

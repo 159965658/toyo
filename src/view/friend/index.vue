@@ -188,4 +188,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.friend .van-pull-refresh {
+  margin-top: 1.12rem;
+}
 </style>
